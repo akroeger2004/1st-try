@@ -1,7 +1,9 @@
 // Dashboard: loads data/monthly_stock_data.csv once, then does every filter,
 // aggregation, and chart redraw in the browser from the in-memory row array.
 
-const EXCHANGE_NAMES = { A: 'NYSE American', N: 'NYSE', P: 'NYSE Arca', Q: 'Nasdaq', Z: 'Cboe BZX' };
+// Exchange is already a readable name in the CSV (normalized at build time
+// from both the Kaggle 2015-2019 codes and Yahoo's 2020-present strings), so
+// no code->name lookup is needed here.
 const ASSET_NAMES = { N: 'Stock', Y: 'ETF' };
 
 let ROWS = [];
@@ -25,9 +27,9 @@ async function loadData() {
     if (!line) continue;
     const f = line.split(',');
     rows.push({
-      sym: f[0], exch: f[1], mcat: f[2], etf: f[3], year: f[4], ym: f[5],
+      sym: f[0], exch: f[1], etf: f[2], era: f[3], year: f[4], ym: f[5],
       open: +f[6], high: +f[7], low: +f[8], close: +f[9], adjClose: +f[10],
-      volume: +f[11], days: +f[12], ret: +f[13],
+      volume: +f[11], ret: +f[12],
     });
   }
   return rows;
@@ -86,7 +88,7 @@ function populateFilterOptions(rows) {
 
   const exchanges = [...new Set(rows.map((r) => r.exch))].sort();
   const exchSel = document.getElementById('filterExchange');
-  exchanges.forEach((e) => exchSel.add(new Option(EXCHANGE_NAMES[e] || e, e)));
+  exchanges.forEach((e) => exchSel.add(new Option(e, e)));
 }
 
 function getFilters() {
@@ -95,6 +97,7 @@ function getFilters() {
     ticker: document.getElementById('filterTicker').value.trim().toUpperCase(),
     exch: document.getElementById('filterExchange').value,
     asset: document.getElementById('filterAssetType').value,
+    era: document.getElementById('filterEra').value,
   };
 }
 
@@ -104,7 +107,8 @@ function filteredRows() {
     (!f.year || r.year === f.year) &&
     (!f.ticker || r.sym.includes(f.ticker)) &&
     (!f.exch || r.exch === f.exch) &&
-    (!f.asset || r.etf === f.asset));
+    (!f.asset || r.etf === f.asset) &&
+    (!f.era || r.era === f.era));
 }
 
 function mean(nums) {
@@ -121,8 +125,9 @@ function median(nums) {
 
 function groupKey(row, breakdown) {
   if (breakdown === 'year') return row.year;
-  if (breakdown === 'exch') return EXCHANGE_NAMES[row.exch] || row.exch;
+  if (breakdown === 'exch') return row.exch;
   if (breakdown === 'asset') return ASSET_NAMES[row.etf] || row.etf;
+  if (breakdown === 'era') return row.era;
   return 'All';
 }
 
@@ -310,7 +315,7 @@ function renderTable(rows) {
   tbody.innerHTML = shown.map((r) => `
     <tr class="clickable-row" data-sym="${r.sym}">
       <td>${r.sym}</td>
-      <td>${EXCHANGE_NAMES[r.exch] || r.exch}${r.etf === 'Y' ? ' · ETF' : ''}</td>
+      <td>${r.exch}${r.etf === 'Y' ? ' · ETF' : ''}</td>
       <td>${r.ym}</td>
       <td>$${r.open.toFixed(2)}</td>
       <td>$${r.close.toFixed(2)}</td>
@@ -336,10 +341,11 @@ function openTickerModal(sym) {
   const best = rows.reduce((a, b) => (b.ret > a.ret ? b : a));
   const worst = rows.reduce((a, b) => (b.ret < a.ret ? b : a));
 
+  const eras = [...new Set(rows.map((r) => r.era))];
   document.getElementById('modalTickerName').textContent = `${sym} — ${meta.name || 'Company name unavailable'}`;
   document.getElementById('modalTickerSub').textContent =
-    `${EXCHANGE_NAMES[meta.exch] || meta.exch || 'Unknown exchange'} · ${ASSET_NAMES[meta.etf] || 'Unknown type'} · ` +
-    `${rows.length} of 60 months in the data (${first.ym} to ${last.ym})`;
+    `${last.exch} · ${ASSET_NAMES[last.etf] || 'Unknown type'} · ` +
+    `${rows.length} months in the data (${first.ym} to ${last.ym}, ${eras.join(' + ')})`;
 
   document.getElementById('modalStats').innerHTML = `
     <div class="stat-tile">
@@ -459,6 +465,7 @@ function resetFilters() {
   document.getElementById('filterTicker').value = '';
   document.getElementById('filterExchange').value = '';
   document.getElementById('filterAssetType').value = '';
+  document.getElementById('filterEra').value = '';
   document.getElementById('measureSelect').value = 'avgReturn';
   document.getElementById('breakdownSelect').value = 'year';
   renderAll();
@@ -476,7 +483,7 @@ async function init() {
   setupTableSort();
   setupModal();
 
-  ['filterYear', 'filterExchange', 'filterAssetType', 'measureSelect', 'breakdownSelect']
+  ['filterYear', 'filterExchange', 'filterAssetType', 'filterEra', 'measureSelect', 'breakdownSelect']
     .forEach((id) => document.getElementById(id).addEventListener('change', renderAll));
   document.getElementById('filterTicker').addEventListener('input', debounce(renderAll, 200));
   document.getElementById('resetFilters').addEventListener('click', resetFilters);

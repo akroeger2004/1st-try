@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Market Movers — Five Years of Stock &amp; ETF Gainers</title>
+<title>Market Movers — Stock &amp; ETF Gainers, 2015–Present</title>
 <link rel="stylesheet" href="css/style.css">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
 </head>
@@ -20,18 +20,20 @@
 
 <main>
   <header class="page-header">
-    <h1>Market Movers: Five Years of Stock &amp; ETF Gainers</h1>
+    <h1>Market Movers: Stock &amp; ETF Gainers, 2015–Present</h1>
     <p class="byline">[Your Name Here] · Financial Data Analytics</p>
     <p class="summary">
-      This report covers monthly price and volume data for 7,681 U.S. stocks and ETFs from
-      January 2015 through December 2019 — 350,243 ticker-months in total. I aggregated raw
-      daily prices into monthly open/high/low/close/volume records for every ticker, then looked
-      at which tickers, exchanges, and years produced the biggest gains and losses. The headline
-      findings: the market's two sharpest single-month drops both landed in a fifteen-month
-      window bracketing the late-2018 selloff, the very next month (January 2019) was the best
-      month in the entire five years, ETFs delivered smoother and slightly higher average
-      monthly returns than individual stocks, and the biggest single-month gainers were almost
-      entirely small biotech and growth names.
+      This report covers monthly price and volume data for 7,681 U.S. stocks and ETFs, spanning
+      January 2015 through September 2026 — 414,608 ticker-months in total. The dataset blends
+      two sources: the full universe of 7,681 tickers for 2015–2019, and the 1,000 highest-volume
+      tickers from that same universe tracked forward into 2020–present. I aggregated raw daily
+      prices into monthly open/high/low/close/volume records, then looked at which tickers,
+      exchanges, eras, and years produced the biggest gains and losses. The headline findings: the
+      COVID crash of March 2020 was more than twice as severe as the previous worst month on
+      record, the rebound started almost immediately, the market's post-2020 leaders looked very
+      different from its 2015–2019 leaders (Nvidia went from a $6 stock to the most actively
+      traded ticker in the data), and about a fifth of the original top-volume names from
+      2015–2019 were gone by 2020 — acquired, delisted, or renamed.
     </p>
   </header>
 
@@ -39,16 +41,16 @@
     <div class="stat-tile">
       <div class="label">Tickers tracked</div>
       <div class="value">7,681</div>
-      <div class="sub">stocks &amp; ETFs, 2015–2019</div>
+      <div class="sub">stocks &amp; ETFs, 2015–present</div>
     </div>
     <div class="stat-tile">
       <div class="label">Ticker-months analyzed</div>
-      <div class="value">350,243</div>
+      <div class="value">414,608</div>
       <div class="sub">one row per ticker per month</div>
     </div>
     <div class="stat-tile">
       <div class="label">Average monthly return</div>
-      <div class="value good">+0.16%</div>
+      <div class="value good">+0.28%</div>
       <div class="sub">equal-weighted, all ticker-months</div>
     </div>
     <div class="stat-tile">
@@ -58,58 +60,65 @@
     </div>
     <div class="stat-tile">
       <div class="label">Worst market-wide month</div>
-      <div class="value bad">−10.1%</div>
-      <div class="sub">December 2018</div>
+      <div class="value bad">−22.7%</div>
+      <div class="sub">March 2020 — the COVID crash</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Data through</div>
+      <div class="value">Sep 2026</div>
+      <div class="sub">141 months covered</div>
     </div>
   </section>
 
   <article>
 
     <section class="finding">
-      <h2>1. Five years, one long climb with two sharp air-pockets</h2>
+      <h2>1. The COVID crash dwarfed everything else in eleven years of data</h2>
       <p>
-        Averaging the monthly return of every ticker in the data shows a market that was
-        positive more often than not, but with two unmistakable drawdowns. The worst month in
-        the whole period was <strong>December 2018 at −10.1%</strong>, part of the broader Q4
-        2018 selloff that also took October 2018 down <strong>−8.3%</strong>. The rebound was
-        just as sharp: <strong>January 2019 was the single best month, at +10.2%</strong> —
-        the market's best and worst months sit only 31 days apart.
+        Averaging the monthly return of every ticker in the data across the full 2015–present
+        span shows a market punctuated by a handful of violent months. <strong>March 2020 was by
+        far the worst month on record, at −22.7%</strong> — more than twice as severe as the
+        previous record holder, December 2018's −10.1%. The rebound was almost immediate:
+        <strong>April 2020 was the single best month in the entire dataset, at +22.1%</strong>,
+        followed by another outsized gain in November 2020 (+17.6%, the vaccine-approval rally).
+        The 2022 rate-hike-driven selloff produced two more sharp drops (June 2022 −10.7%,
+        September 2022 −9.1%), but nothing has come close to March 2020's crash.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartTrend" height="110"></canvas></div>
-        <figcaption>Average monthly return across all tracked tickers, Jan 2015–Dec 2019.</figcaption>
+        <figcaption>Average monthly return across all tracked tickers, Jan 2015–Sep 2026.</figcaption>
       </div>
     </section>
 
     <section class="finding">
-      <h2>2. 2018 was the market's worst year; 2019 its best</h2>
+      <h2>2. 2020 was the market's best full year — despite starting with a crash</h2>
       <p>
-        Rolling the monthly numbers up to calendar years, <strong>2018 was the only clearly
-        negative year at −1.33% average monthly return</strong>, driven almost entirely by that
-        October–December stretch. <strong>2019 was the strongest year at +1.16%</strong>,
-        largely on the back of January's rebound. 2016 and 2017 were both modestly positive
-        (+0.96% and +0.70%), while 2015 was slightly negative (−0.72%).
+        Rolling the monthly numbers up to calendar years, <strong>2020 was actually the strongest
+        year in the data at +2.27% average monthly return</strong>, thanks to the scale of the
+        Q2–Q4 rebound outweighing the March crash. <strong>2018 (−1.33%) and 2022 (−1.13%)</strong>
+        are the only two clearly negative years — 2018 driven by the Q4 selloff, 2022 by the
+        rate-hike bear market. Every other year from 2015 through the partial 2026 has been
+        positive, including a strong 2025 (+1.62%) in the most recent full year of data.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartByYear" height="110"></canvas></div>
-        <figcaption>Average monthly return by calendar year, all tickers.</figcaption>
+        <figcaption>Average monthly return by calendar year, all tickers. 2026 is partial (through September).</figcaption>
       </div>
     </section>
 
     <section class="finding">
-      <h2>3. The biggest single-month gainers were almost all small biotech and growth stocks</h2>
+      <h2>3. The biggest single-month gainers, all-time, are almost all small biotech and growth stocks</h2>
       <p>
-        Ranking every ticker-month by return, the single biggest gain in the data was
-        <strong>Zogenix (ZGNX), which rose 193.3% in September 2017</strong> on positive trial
-        data for an epilepsy drug. Eight of the top ten single-month gainers are small-cap
-        biotech or specialty-pharma names (Zogenix, Veritone, Pennant Group, My Size, X4
-        Pharmaceuticals, Capricor, BioCardia, Relmada). The one instantly recognizable name is
-        <strong>Tilray (TLRY), up 176.5% in August 2018</strong> during the run-up in
-        cannabis-sector stocks shortly after its IPO.
+        Ranking every ticker-month by return across the full 2015–present dataset, the single
+        biggest gain was still <strong>Zogenix (ZGNX), which rose 193.3% in September 2017</strong>
+        on positive trial data for an epilepsy drug — seven of the top ten are small-cap biotech
+        or specialty-pharma names from that same 2015–2019 window. Two 2020–present names do crack
+        the all-time top ten: <strong>Aurora Cannabis (ACB, +184.9% in November 2020)</strong> and
+        Jumia (JMIA, +180.4% in July 2020), both swept up in pandemic-era retail-trading manias.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartGainers" height="220"></canvas></div>
-        <figcaption>Top 10 single-ticker, single-month returns, 2015–2019.</figcaption>
+        <figcaption>Top 10 single-ticker, single-month returns, all-time (2015–present).</figcaption>
       </div>
     </section>
 
@@ -126,23 +135,31 @@
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartLosers" height="220"></canvas></div>
-        <figcaption>Steepest 10 single-ticker, single-month returns, 2015–2019.</figcaption>
+        <figcaption>Steepest 10 single-ticker, single-month returns, all-time (2015–present).</figcaption>
       </div>
+      <p>
+        Notably, even with five more years of data added, <strong>every one of the ten steepest
+        losses still comes from the original 2015–2019 window</strong> — none of the 1,000
+        highest-volume tickers tracked into 2020–present had a single month that extreme, which
+        is itself a sign that the 2020–present slice (drawn from more established, highly-traded
+        companies) is less prone to this kind of data noise than the long tail of small caps in
+        the full 2015–2019 universe.
+      </p>
     </section>
 
     <section class="finding">
-      <h2>5. ETFs out-gained individual stocks on average, with less noise</h2>
+      <h2>5. ETFs and individual stocks perform almost identically once you include 2020–present</h2>
       <p>
-        Across the whole period, the 94,716 ETF ticker-months averaged
-        <strong>+0.28% per month</strong>, versus <strong>+0.12% for the 255,371 individual
-        stock ticker-months</strong> — ETFs came out ahead by more than double. That fits the
-        diversification story: a single ETF smooths out the wild single-month swings that drive
-        the top-gainer and top-loser lists above, so the average tilts positive even without any
-        single spectacular winner.
+        Across the full 2015–present dataset, the 104,615 ETF ticker-months averaged
+        <strong>+0.283% per month</strong>, versus <strong>+0.277% for the 309,837 individual
+        stock ticker-months</strong> — essentially a tie. That's a real change from the
+        2015–2019-only picture, where ETFs had clearly outpaced stocks: once the 2020–present
+        mega-cap-stock rally (Nvidia, Tesla, Amazon) is folded in, individual stocks caught all
+        the way up to ETFs' smoother, diversified returns.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartStocksEtfs" height="140"></canvas></div>
-        <figcaption>Average monthly return, individual stocks vs. ETFs.</figcaption>
+        <figcaption>Average monthly return, individual stocks vs. ETFs, 2015–present.</figcaption>
       </div>
     </section>
 
@@ -150,48 +167,88 @@
       <h2>6. Where a stock lists lines up with how it performed</h2>
       <p>
         Breaking average return down by listing exchange, <strong>NYSE American — home to a lot
-        of small and micro-cap listings — was the only exchange with a negative average return
-        (−0.81%)</strong>. The other four venues were all positive: Cboe BZX led at +0.34%,
-        followed by NYSE Arca (+0.24%), NYSE (+0.19%), and Nasdaq (+0.13%). This lines up with
-        exchange listing standards — the larger, more established exchanges skew toward larger,
-        steadier companies.
+        of small and micro-cap listings — remains the only exchange with a negative average
+        return (−0.78%)</strong>. The other four venues are all positive, and the ranking shifted
+        once 2020–present was added: <strong>NYSE now leads at +0.38%</strong> (up from third
+        place in the 2015–2019-only view), followed by Cboe BZX (+0.28%), NYSE Arca (+0.25%), and
+        Nasdaq (+0.23%). NYSE's rise reflects how many of the 2020–present mega-cap winners —
+        Berkshire, Visa, Mastercard — are NYSE-listed.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartByExchange" height="130"></canvas></div>
-        <figcaption>Average monthly return by listing exchange.</figcaption>
+        <figcaption>Average monthly return by listing exchange, 2015–present.</figcaption>
       </div>
     </section>
 
     <section class="finding">
-      <h2>7. A handful of tickers were positive in 4 out of every 5 months</h2>
+      <h2>7. The most consistent gainers, all-time, are index funds and mega-caps — not bond ETFs</h2>
       <p>
-        Looking only at tickers with at least 48 of the 60 months present, and ranking by the
-        share of months with a positive return, the top of the list is dominated by short-term
-        bond and cash-management ETFs (NEAR, MINT, SHV, FLOT) — positive 76–85% of months, which
-        makes sense for funds designed to barely move. The interesting exception is
-        <strong>Copart (CPRT), an ordinary common stock that was positive in 76.7% of months</strong>
-        with a +2.79% average monthly return, making it the most consistent outright grower in
-        the data, alongside waste-hauler Waste Connections (WCN).
+        Looking only at tickers with at least 100 of the 141 possible months present, and ranking
+        by the share of months with a positive return, the list is now dominated by the market's
+        biggest names rather than sleepy bond funds: <strong>SPY (66.9% of months positive)</strong>,
+        followed by Dell, Vanguard's VOO and IVV S&amp;P 500 funds, and <strong>Nvidia (NVDA,
+        65.5%)</strong>. Mastercard (MA) and Vanguard Total Market (VTI) round out a list that
+        reads like a "who's who" of the current market — a very different, more recognizable set
+        of names than the short-term bond ETFs that topped this ranking in the 2015–2019-only data.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartConsistency" height="220"></canvas></div>
-        <figcaption>Top 10 tickers by share of months with a positive return (min. 48 of 60 months present).</figcaption>
+        <figcaption>Top 10 tickers by share of months with a positive return (min. 100 of 141 months present).</figcaption>
       </div>
     </section>
 
     <section class="finding">
-      <h2>8. Trading activity concentrates in a small set of giant, familiar names</h2>
+      <h2>8. Nvidia is now the single most actively traded ticker in the data</h2>
       <p>
         Ranking tickers by average monthly trading volume tells a very different story from the
-        return-based rankings above: the most actively traded ticker in the data was
-        <strong>SPY, the S&amp;P 500 ETF, at just under 2 billion shares a month on average</strong>,
-        followed by Bank of America (BAC) and AMD. Six of the top ten are either broad-market
-        ETFs (SPY, EEM, XLF, GDX) or mega-cap stocks (BAC, GE, F, AAPL) — the names everyone
-        already knows, not the small caps that dominate the gainer/loser lists.
+        return-based rankings above, and it changed completely once 2020–present was added:
+        <strong>Nvidia (NVDA) is now the most actively traded ticker at 4.65 billion shares a
+        month on average</strong> — more than double second-place TQQQ (a 3x-leveraged Nasdaq
+        ETF popular with retail traders). SPY, Tesla, and AAPL round out the top five. Six of the
+        top ten either didn't exist as major volume drivers in 2015–2019 or have exploded in
+        popularity since (NVDA, TQQQ, TSLA, NIO) — a direct reflection of the AI rally and the
+        2020–2021 retail-trading boom.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartVolume" height="220"></canvas></div>
-        <figcaption>Top 10 tickers by average monthly trading volume, 2015–2019.</figcaption>
+        <figcaption>Top 10 tickers by average monthly trading volume, 2015–present.</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>9. The 2020–present era has been both stronger and narrower</h2>
+      <p>
+        The 1,000 tickers tracked into 2020–present were selected as the highest-volume names of
+        2015–2019 — in effect, "the market's biggest 1,000" as of five years ago. Of those 1,000,
+        <strong>only 805 still had usable trading data in 2020–present</strong>; the rest were
+        acquired, delisted, taken private, or renamed in the intervening years. That surviving,
+        already-large group went on to average <strong>+0.92% per month from 2020–present</strong>,
+        versus +0.16% for the full 2015–2019 universe — a real performance gap, though it's
+        partly survivorship: this comparison only tracks companies that were already prominent
+        enough to make the original top-1,000 cut, not the market as a whole in either era.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartEra" height="140"></canvas></div>
+        <figcaption>Average monthly return by era: the full 2015–2019 universe vs. the 1,000 highest-volume survivors tracked into 2020–present.</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>10. Meme stocks, cannabis, and crypto miners drove the biggest 2020–present single-month gains</h2>
+      <p>
+        Within 2020–present specifically, the single biggest month was
+        <strong>Aurora Cannabis (ACB), +184.9% in November 2020</strong>, during a broad rally in
+        cannabis stocks around the U.S. election. <strong>AMC Entertainment's +158.4% in May
+        2021</strong> is the clearest meme-stock-era signature in the data, and Bitcoin-mining
+        stock Riot Platforms (RIOT, +159.2% in November 2020) reflects the crypto rally of the
+        same period. For a longer-run example outside this top-ten list: <strong>Nvidia (NVDA)
+        itself went from a split-adjusted $5.91 in January 2020 to $220.78 by August 2026 — a
+        roughly 37x increase</strong> — the single clearest expression of the AI rally in this
+        dataset.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartGainersRecent" height="220"></canvas></div>
+        <figcaption>Top 10 single-ticker, single-month returns within the 2020–present era only.</figcaption>
       </div>
     </section>
 
@@ -200,26 +257,39 @@
   <section class="closing">
     <h2>About this data</h2>
     <p>
-      The source is the <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">Stock Market Dataset</a>
-      by jacksoncrow on Kaggle — daily historical open/high/low/close/volume prices for U.S.
-      stocks and ETFs, plus a NASDAQ/NYSE ticker metadata file. <strong>One row in the working
-      dataset is one ticker in one calendar month</strong>: daily prices were aggregated into
-      monthly open (first trading day's open), close (last trading day's close), high/low
-      (the month's extremes), and volume (the month's total), for January 2015 through
-      December 2019.
+      This dataset blends two sources. <strong>2015–2019</strong> comes from the
+      <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">Stock Market Dataset</a>
+      by jacksoncrow on Kaggle — daily historical open/high/low/close/volume prices for all
+      7,681 U.S. stocks and ETFs in that file, plus a ticker metadata file. <strong>2020–present</strong>
+      comes from Yahoo Finance's public historical-data endpoint, fetched for the 1,000 tickers
+      with the highest average monthly trading volume in the 2015–2019 data — a fixed, published
+      list derived entirely from the Kaggle file, not cherry-picked after the fact. <strong>One
+      row is one ticker in one calendar month</strong>, tagged with an <code>Era</code> column
+      (<code>2015-2019</code> or <code>2020-present</code>) so the two sources stay distinguishable.
+      Monthly figures are open (first trading day's open), close (last trading day's close),
+      high/low (the month's extremes), and volume (the month's total).
     </p>
     <dl>
       <dt>Rows dropped</dt>
       <dd>
-        From the ~397,000 raw ticker-months, rows were dropped if: the ticker had fewer than 15
-        trading days that month (partial listing/delisting months); the month's opening price
-        was below $5 or above $500 (penny stocks and a handful of implausibly high per-share
-        prices for obscure tickers are the most noise-prone); the computed return was beyond
-        ±200% (±60% for ETFs, since a diversified fund realistically cannot move that much in a
-        month) — in this dataset, moves beyond that threshold were essentially always stock
-        splits, ticker reassignment, or other data artifacts rather than real trading, most
-        visibly a handful of tickers showing million-percent "gains." About 12% of ticker-months
-        were dropped by these rules, leaving 350,243.
+        <strong>2015–2019:</strong> from ~397,000 raw ticker-months, rows were dropped for fewer
+        than 15 trading days that month, an opening price below $5 or above $500, or a computed
+        return beyond ±200% (±60% for ETFs) — in this source, moves beyond that threshold were
+        almost always stock splits, ticker reassignment, or other data artifacts, most visibly a
+        handful of tickers showing million-percent "gains." <strong>2020–present:</strong> from
+        1,000 fetched tickers, 195 returned no usable data (delisted, acquired, or renamed since
+        2015–2019) and a further ~460 individual ticker-months were dropped for a null,
+        non-positive, or implausible price (the same ±200%/±60% return rule, plus a minimum $1
+        open/high/low/close to exclude a small number of zero-price glitches in the raw feed —
+        one, Agnico Eagle Mines in May 2021, would otherwise have shown a false "−100%" month).
+        Combined, about 12% of raw ticker-months are dropped, leaving 414,608.
+      </dd>
+      <dt>Known limitation</dt>
+      <dd>
+        The 2020–present slice can only show tickers that were already among 2015–2019's top
+        1,000 by volume — it cannot surface a company that IPO'd after 2019 (for example, most
+        2021-era SPACs) becoming a top mover, since it was never a candidate for inclusion.
+        Findings above that compare "all-time" rankings are only as complete as that fixed list.
       </dd>
       <dt>How the numbers are computed</dt>
       <dd>
@@ -234,7 +304,7 @@
 </main>
 
 <footer class="site-footer">
-  Data: <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">jacksoncrow/stock-market-dataset</a> on Kaggle · Built for Financial Data Analytics
+  Data: <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">jacksoncrow/stock-market-dataset</a> (2015–2019) + Yahoo Finance (2020–present) · Built for Financial Data Analytics
 </footer>
 
 <script src="js/common.js"></script>

@@ -21,14 +21,22 @@
 <main>
   <header class="page-header">
     <h1>Dashboard</h1>
-    <p class="byline">Filter the full 350,243-row panel of monthly stock &amp; ETF data and see every number recompute live.</p>
+    <p class="byline">Filter the full 414,608-row panel of monthly stock &amp; ETF data (2015–2019 plus 2020–present) and see every number recompute live.</p>
   </header>
 
-  <div id="loadingNote" class="loading-note">Loading 350,243 rows of price data…</div>
+  <div id="loadingNote" class="loading-note">Loading 414,608 rows of price data…</div>
 
   <div id="dashboardBody" style="display:none">
 
     <div class="filter-bar">
+      <div class="filter-field">
+        <label for="filterEra">Era</label>
+        <select id="filterEra">
+          <option value="">Both eras</option>
+          <option value="2015-2019">2015–2019</option>
+          <option value="2020-present">2020–present</option>
+        </select>
+      </div>
       <div class="filter-field">
         <label for="filterYear">Year</label>
         <select id="filterYear"><option value="">All years</option></select>
@@ -88,6 +96,7 @@
               <option value="year">by Year</option>
               <option value="exch">by Exchange</option>
               <option value="asset">by Stock / ETF</option>
+              <option value="era">by Era</option>
             </select>
           </div>
         </div>
@@ -155,7 +164,7 @@
 </main>
 
 <footer class="site-footer">
-  Data: <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">jacksoncrow/stock-market-dataset</a> on Kaggle · Built for Financial Data Analytics
+  Data: <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">jacksoncrow/stock-market-dataset</a> (2015–2019) + Yahoo Finance (2020–present) · Built for Financial Data Analytics
 </footer>
 
 <script src="js/common.js"></script>
