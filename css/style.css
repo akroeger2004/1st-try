@@ -413,6 +413,12 @@ td.negative { color: var(--delta-bad); }
 
 table.data-table tbody tr.clickable-row { cursor: pointer; }
 
+#crossEraTable td:nth-child(2) {
+  max-width: 260px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* ---------- Ticker detail modal ---------- */
 
 .modal-overlay {

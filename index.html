@@ -216,20 +216,22 @@
     </section>
 
     <section class="finding">
-      <h2>9. The 2020–present era has been both stronger and narrower</h2>
+      <h2>9. Even holding the same companies constant, the 2020–present era has been stronger</h2>
       <p>
         The 1,000 tickers tracked into 2020–present were selected as the highest-volume names of
-        2015–2019 — in effect, "the market's biggest 1,000" as of five years ago. Of those 1,000,
-        <strong>only 805 still had usable trading data in 2020–present</strong>; the rest were
-        acquired, delisted, taken private, or renamed in the intervening years. That surviving,
-        already-large group went on to average <strong>+0.92% per month from 2020–present</strong>,
-        versus +0.16% for the full 2015–2019 universe — a real performance gap, though it's
-        partly survivorship: this comparison only tracks companies that were already prominent
-        enough to make the original top-1,000 cut, not the market as a whole in either era.
+        2015–2019. Of those 1,000, <strong>only 805 still had usable trading data in
+        2020–present</strong>; the rest were acquired, delisted, taken private, or renamed in the
+        intervening years. Comparing the full 2015–2019 universe (+0.16%/month) to the
+        2020–present survivors (+0.92%/month) overstates the difference, though, since it mixes
+        two different populations. The fairer test holds the company set constant:
+        <strong>those same 805 companies averaged +0.43% per month back in 2015–2019</strong> —
+        already well above the market-wide average, which is exactly why they had the volume to
+        make this list — <strong>and grew to +0.92% per month in 2020–present</strong>, roughly
+        doubling. That's a real, if more modest, era effect once survivorship bias is removed.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartEra" height="140"></canvas></div>
-        <figcaption>Average monthly return by era: the full 2015–2019 universe vs. the 1,000 highest-volume survivors tracked into 2020–present.</figcaption>
+        <figcaption>Average monthly return by era, the same 805 companies in both periods (not the full 2015-2019 universe).</figcaption>
       </div>
     </section>
 
@@ -250,6 +252,74 @@
         <div class="chart-canvas-wrap"><canvas id="chartGainersRecent" height="220"></canvas></div>
         <figcaption>Top 10 single-ticker, single-month returns within the 2020–present era only.</figcaption>
       </div>
+    </section>
+
+    <section class="finding">
+      <h2>11. The stocks that actually help someone invest look nothing like the "biggest gainer" lists above</h2>
+      <p>
+        Sections 3 and 10 rank tickers by their single best month — but a spike month is usually a
+        one-time news event, not a sign of quality: of the ten all-time biggest gainers in section
+        3, eight gave back 45–82% of their value within the following year. A more useful
+        question is which companies were <strong>reliably positive in both eras</strong> — not
+        just once. Filtering the 805 companies with substantial data in both periods (at least 48
+        of 60 months in 2015–2019 and 40+ months in 2020–present) and ranking by whichever era
+        each was <em>less</em> consistent in produces a very different, much steadier list of
+        roughly 100 stocks and ETFs — <strong>Nvidia (NVDA) tops it</strong>, positive in 65% of
+        months in both periods, followed by index funds, Coca-Cola, and a mix of industrials,
+        chipmakers, and healthcare names. The full ranked list of 100 is explorable in the
+        <a href="dashboard.html">dashboard</a>; the chart below shows the top 15 individual stocks
+        (ETFs excluded), comparing each one's own average return in 2015–2019 against 2020–present.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartCrossEra" height="200"></canvas></div>
+        <figcaption>Average monthly return by era, same company both bars — top 15 stocks by cross-era consistency.</figcaption>
+      </div>
+      <p>
+        A few of these have real, checkable stories behind the acceleration:
+      </p>
+      <p>
+        <strong>Nvidia (NVDA)</strong> — already a strong performer in 2015–2019 (+4.68%/month),
+        it kept accelerating (+5.22%/month in 2020–present) through two stock splits tied directly
+        to the AI buildout: a 4-for-1 split in July 2021, and a 10-for-1 split on June 7, 2024,
+        announced alongside record quarterly data-center revenue of $22.6 billion — in our data,
+        NVDA rose <strong>+28.9% that same month (May 2024)</strong>.
+      </p>
+      <p>
+        <strong>Quanta Services (PWR)</strong> — an electrical-infrastructure contractor most
+        people have never heard of, it went from a modest +0.82%/month in 2015–2019 to
+        <strong>+3.74%/month in 2020–present</strong>, the largest acceleration of any name on
+        this list. The driver is AI data centers' power demand: Quanta's net income roughly
+        doubled from $486 million (2021) to $905 million (2024) as it built out the grid capacity
+        those data centers need. It isn't a one-way story, though — PWR fell <strong>−7.9% in
+        August 2026</strong> in our data, a reminder that even an infrastructure-boom stock isn't
+        immune to pullbacks.
+      </p>
+      <p>
+        <strong>Eli Lilly (LLY)</strong> — average monthly return nearly tripled, from +1.11% to
+        +3.01%, on the back of its GLP-1 weight-loss drugs: Mounjaro was FDA-approved May 13,
+        2022 (LLY <strong>+7.6% that month</strong> in our data), and Zepbound followed November
+        8, 2023 (<strong>+6.5% that month</strong>).
+      </p>
+      <p>
+        <strong>Refiners Marathon Petroleum (MPC) and Valero (VLO)</strong> both show the same
+        pattern: Russia's February 2022 invasion of Ukraine cut off Russian crude and refined-fuel
+        exports, sending refining margins — and these stocks — sharply higher (MPC
+        <strong>+8.9%</strong>, VLO <strong>+20.0%</strong> in March 2022 alone). Neither move was
+        a straight line: both gave a chunk back that June (MPC −20.1%, VLO −18.5%) as broader
+        recession fears hit energy stocks despite still-strong margins — and both names show the
+        identical pattern resurfacing recently, with refining margins spiking again in 2026 amid
+        fresh Middle East and Russia supply disruptions.
+      </p>
+      <p>
+        For contrast, <strong>Royal Caribbean (RCL)</strong> — a name notably absent from this
+        consistency list — shows why "consistent" and "eventually profitable" aren't the same
+        thing: it fell −30.9% in February 2020 and another −60.5% in March 2020 as COVID
+        shut down the cruise industry entirely (our data shows the stock bottoming intra-month
+        after opening at $81.50), then rebounded +54.4% the very next month. It's a genuine
+        long-term winner from that low, but the round trip was violent enough to keep it out of
+        the "consistent in both eras" ranking above — consistency and a good outcome are two
+        different things.
+      </p>
     </section>
 
   </article>
@@ -298,6 +368,14 @@
         ticker-months in that group — a $50B company and a $50M company count equally. "Average
         monthly volume" for a ticker is the mean of that ticker's MonthVolume across the months
         it appears. The reproduction scripts are in <code>scripts/</code>.
+      </dd>
+      <dt>How "cross-era consistency" (section 11) is computed</dt>
+      <dd>
+        Limited to tickers with at least 48 of 60 possible 2015–2019 months and at least 40 of the
+        2020–present months present (roughly 100 stocks and ETFs qualify). For each, the share of
+        months with a positive return is computed separately per era; the ranking score is the
+        <em>lower</em> of the two shares, so a name only ranks highly if it was reliably positive
+        in <em>both</em> periods, not just its better one.
       </dd>
     </dl>
   </section>

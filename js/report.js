@@ -48,9 +48,25 @@ const BY_YEAR = [
   ['2025', 1.623], ["2026*", 1.244],
 ];
 
+// Same 805 companies in both eras (not the full 2015-2019 universe vs. a
+// subset) - isolates the time-period effect from survivorship bias.
 const ERA_COMPARISON = [
-  { label: '2015-2019 (full universe)', avgReturn: 0.162, count: 350243 },
-  { label: '2020-present (top volume survivors)', avgReturn: 0.915, count: 64365 },
+  { label: '2015-2019', avgReturn: 0.434, count: 42860 },
+  { label: '2020-present', avgReturn: 0.915, count: 64365 },
+];
+
+// Top 15 individual stocks (ETFs excluded) ranked by cross-era consistency:
+// min(% of 2015-2019 months positive, % of 2020-present months positive).
+// Full ranked list of ~100 stocks + ETFs is explorable in the dashboard.
+const CROSS_ERA_LEADERS = [
+  { sym: 'NVDA', r1: 4.680, r2: 5.221 }, { sym: 'KO', r1: 0.565, r2: 0.618 },
+  { sym: 'PWR', r1: 0.821, r2: 3.740 }, { sym: 'COF', r1: 0.301, r2: 1.393 },
+  { sym: 'AFL', r1: 0.970, r2: 1.112 }, { sym: 'TSM', r1: 1.380, r2: 2.628 },
+  { sym: 'LLY', r1: 1.106, r2: 3.013 }, { sym: 'COST', r1: 1.345, r2: 1.572 },
+  { sym: 'TER', r1: 2.146, r2: 3.023 }, { sym: 'NFLX', r1: 3.839, r2: 1.569 },
+  { sym: 'KLAC', r1: 1.774, r2: 3.718 }, { sym: 'FTNT', r1: 2.249, r2: 3.195 },
+  { sym: 'EW', r1: 2.479, r2: 0.419 }, { sym: 'AAPL', r1: 1.523, r2: 2.133 },
+  { sym: 'TSCO', r1: 0.537, r2: 0.874 },
 ];
 
 // All-time top 10, ranked across the full 2015-present dataset (not just one era)
@@ -386,6 +402,26 @@ function renderReportCharts() {
         },
       },
       scales: baseScales(c, { x: { beginAtZero: true, ticks: { callback: (v) => v + '%' } } }),
+    },
+  });
+
+  // 11. Cross-era leaders: same stock's average return in each era (grouped bar, one axis)
+  makeChart('chartCrossEra', {
+    type: 'bar',
+    data: {
+      labels: CROSS_ERA_LEADERS.map((d) => d.sym),
+      datasets: [
+        { label: '2015-2019', data: CROSS_ERA_LEADERS.map((d) => d.r1), backgroundColor: c.series[0], borderRadius: 3, maxBarThickness: 14 },
+        { label: '2020-present', data: CROSS_ERA_LEADERS.map((d) => d.r2), backgroundColor: c.series[1], borderRadius: 3, maxBarThickness: 14 },
+      ],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: true, position: 'top', labels: { color: c.textSecondary, font: chartFont(), boxWidth: 12 } },
+        tooltip: { ...baseTooltip(c), callbacks: { label: (ctx) => `${ctx.dataset.label}: ${fmtPct(ctx.parsed.y)}` } },
+      },
+      scales: baseScales(c, { y: { beginAtZero: true, ticks: { callback: (v) => v + '%' } } }),
     },
   });
 }

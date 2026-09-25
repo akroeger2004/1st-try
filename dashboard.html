@@ -141,6 +141,34 @@
       </div>
     </section>
 
+    <section class="table-section" id="crossEraSection">
+      <h2>Consistent gainers, both eras</h2>
+      <p class="result-note">
+        Ranked by whichever era each ticker was <em>less</em> consistent in — a high score means
+        reliably positive in both 2015–2019 and 2020–present, not just its better period. Limited
+        to tickers with at least 48 of 60 possible 2015–2019 months and 40+ 2020–present months
+        present. Independent of the filters above. Click a row for that ticker's full profile.
+      </p>
+      <p class="result-note" id="crossEraNote"></p>
+      <div class="table-wrap">
+        <table class="data-table" id="crossEraTable">
+          <thead>
+            <tr>
+              <th data-key="sym">Ticker</th>
+              <th data-key="name">Company</th>
+              <th data-key="type">Type</th>
+              <th data-key="pct1">2015-19 % positive</th>
+              <th data-key="avg1">2015-19 avg return</th>
+              <th data-key="pct2">2020-present % positive</th>
+              <th data-key="avg2">2020-present avg return</th>
+              <th data-key="score">Score</th>
+            </tr>
+          </thead>
+          <tbody id="crossEraBody"></tbody>
+        </table>
+      </div>
+    </section>
+
   </div>
 
   <div id="tickerModal" class="modal-overlay" hidden>

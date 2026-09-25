@@ -326,6 +326,78 @@ function renderTable(rows) {
     `Showing ${fmtNumber(shown.length)} of ${fmtNumber(rows.length)} ticker-months in view, sorted by ${sortState.key} (${sortState.dir}).`;
 }
 
+// ---------- Cross-era consistency table (independent of the main filters) ----------
+
+let crossEraData = [];
+let crossEraSortState = { key: 'score', dir: 'desc' };
+
+function computeCrossEraLeaders() {
+  const stats = {};
+  ROWS.forEach((r) => {
+    const s = stats[r.sym] || (stats[r.sym] = { c1: 0, p1: 0, s1: 0, c2: 0, p2: 0, s2: 0 });
+    if (r.era === '2015-2019') { s.c1++; if (r.ret > 0) s.p1++; s.s1 += r.ret; }
+    else { s.c2++; if (r.ret > 0) s.p2++; s.s2 += r.ret; }
+  });
+  const out = [];
+  Object.keys(stats).forEach((sym) => {
+    const s = stats[sym];
+    if (s.c1 >= 48 && s.c2 >= 40) {
+      const pct1 = (s.p1 / s.c1) * 100;
+      const pct2 = (s.p2 / s.c2) * 100;
+      const avg1 = s.s1 / s.c1;
+      const avg2 = s.s2 / s.c2;
+      const meta = TICKER_META[sym] || {};
+      out.push({
+        sym, name: meta.name || 'Company name unavailable', type: ASSET_NAMES[meta.etf] || 'Unknown',
+        pct1, avg1, pct2, avg2, score: Math.min(pct1, pct2),
+      });
+    }
+  });
+  out.sort((a, b) => b.score - a.score);
+  return out;
+}
+
+function renderCrossEraTable() {
+  const sorted = [...crossEraData].sort((a, b) => {
+    const dir = crossEraSortState.dir === 'asc' ? 1 : -1;
+    const av = a[crossEraSortState.key];
+    const bv = b[crossEraSortState.key];
+    if (typeof av === 'string') return av.localeCompare(bv) * dir;
+    return (av - bv) * dir;
+  });
+  const tbody = document.getElementById('crossEraBody');
+  tbody.innerHTML = sorted.map((d) => `
+    <tr class="clickable-row" data-sym="${d.sym}">
+      <td>${d.sym}</td>
+      <td title="${d.name}">${d.name}</td>
+      <td>${d.type}</td>
+      <td>${d.pct1.toFixed(1)}%</td>
+      <td class="${d.avg1 >= 0 ? 'positive' : 'negative'}">${fmtPct(d.avg1)}</td>
+      <td>${d.pct2.toFixed(1)}%</td>
+      <td class="${d.avg2 >= 0 ? 'positive' : 'negative'}">${fmtPct(d.avg2)}</td>
+      <td>${d.score.toFixed(1)}%</td>
+    </tr>`).join('');
+  document.getElementById('crossEraNote').textContent =
+    `${fmtNumber(sorted.length)} tickers meet the coverage threshold, sorted by ${crossEraSortState.key} (${crossEraSortState.dir}).`;
+}
+
+function setupCrossEra() {
+  crossEraData = computeCrossEraLeaders();
+  renderCrossEraTable();
+  document.querySelectorAll('#crossEraTable thead th').forEach((th) => {
+    th.addEventListener('click', () => {
+      const key = th.dataset.key;
+      if (crossEraSortState.key === key) crossEraSortState.dir = crossEraSortState.dir === 'asc' ? 'desc' : 'asc';
+      else { crossEraSortState.key = key; crossEraSortState.dir = 'desc'; }
+      renderCrossEraTable();
+    });
+  });
+  document.getElementById('crossEraBody').addEventListener('click', (e) => {
+    const tr = e.target.closest('tr');
+    if (tr && tr.dataset.sym) openTickerModal(tr.dataset.sym);
+  });
+}
+
 // ---------- Ticker detail modal ----------
 
 function openTickerModal(sym) {
@@ -482,6 +554,7 @@ async function init() {
   populateFilterOptions(ROWS);
   setupTableSort();
   setupModal();
+  setupCrossEra();
 
   ['filterYear', 'filterExchange', 'filterAssetType', 'filterEra', 'measureSelect', 'breakdownSelect']
     .forEach((id) => document.getElementById(id).addEventListener('change', renderAll));
