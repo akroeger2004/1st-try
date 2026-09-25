@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Market Movers — Five Years of Stock &amp; ETF Gainers</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">Market <span>Movers</span></a>
+  <div class="links">
+    <a href="index.html" class="active">Report</a>
+    <a href="dashboard.html">Dashboard</a>
+  </div>
+  <a class="repo-link" href="https://github.com/akroeger2004/stock-analysis" target="_blank" rel="noopener">Source on GitHub ↗</a>
+</nav>
+
+<main>
+  <header class="page-header">
+    <h1>Market Movers: Five Years of Stock &amp; ETF Gainers</h1>
+    <p class="byline">[Your Name Here] · Financial Data Analytics</p>
+    <p class="summary">
+      This report covers monthly price and volume data for 7,681 U.S. stocks and ETFs from
+      January 2015 through December 2019 — 350,243 ticker-months in total. I aggregated raw
+      daily prices into monthly open/high/low/close/volume records for every ticker, then looked
+      at which tickers, exchanges, and years produced the biggest gains and losses. The headline
+      findings: the market's two sharpest single-month drops both landed in a fifteen-month
+      window bracketing the late-2018 selloff, the very next month (January 2019) was the best
+      month in the entire five years, ETFs delivered smoother and slightly higher average
+      monthly returns than individual stocks, and the biggest single-month gainers were almost
+      entirely small biotech and growth names.
+    </p>
+  </header>
+
+  <section class="stat-grid" aria-label="Headline numbers">
+    <div class="stat-tile">
+      <div class="label">Tickers tracked</div>
+      <div class="value">7,681</div>
+      <div class="sub">stocks &amp; ETFs, 2015–2019</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Ticker-months analyzed</div>
+      <div class="value">350,243</div>
+      <div class="sub">one row per ticker per month</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Average monthly return</div>
+      <div class="value good">+0.16%</div>
+      <div class="sub">equal-weighted, all ticker-months</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Best single-month gain</div>
+      <div class="value good">+193.3%</div>
+      <div class="sub">ZGNX (Zogenix), Sep 2017</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Worst market-wide month</div>
+      <div class="value bad">−10.1%</div>
+      <div class="sub">December 2018</div>
+    </div>
+  </section>
+
+  <article>
+
+    <section class="finding">
+      <h2>1. Five years, one long climb with two sharp air-pockets</h2>
+      <p>
+        Averaging the monthly return of every ticker in the data shows a market that was
+        positive more often than not, but with two unmistakable drawdowns. The worst month in
+        the whole period was <strong>December 2018 at −10.1%</strong>, part of the broader Q4
+        2018 selloff that also took October 2018 down <strong>−8.3%</strong>. The rebound was
+        just as sharp: <strong>January 2019 was the single best month, at +10.2%</strong> —
+        the market's best and worst months sit only 31 days apart.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartTrend" height="110"></canvas></div>
+        <figcaption>Average monthly return across all tracked tickers, Jan 2015–Dec 2019.</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>2. 2018 was the market's worst year; 2019 its best</h2>
+      <p>
+        Rolling the monthly numbers up to calendar years, <strong>2018 was the only clearly
+        negative year at −1.33% average monthly return</strong>, driven almost entirely by that
+        October–December stretch. <strong>2019 was the strongest year at +1.16%</strong>,
+        largely on the back of January's rebound. 2016 and 2017 were both modestly positive
+        (+0.96% and +0.70%), while 2015 was slightly negative (−0.72%).
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartByYear" height="110"></canvas></div>
+        <figcaption>Average monthly return by calendar year, all tickers.</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>3. The biggest single-month gainers were almost all small biotech and growth stocks</h2>
+      <p>
+        Ranking every ticker-month by return, the single biggest gain in the data was
+        <strong>Zogenix (ZGNX), which rose 193.3% in September 2017</strong> on positive trial
+        data for an epilepsy drug. Eight of the top ten single-month gainers are small-cap
+        biotech or specialty-pharma names (Zogenix, Veritone, Pennant Group, My Size, X4
+        Pharmaceuticals, Capricor, BioCardia, Relmada). The one instantly recognizable name is
+        <strong>Tilray (TLRY), up 176.5% in August 2018</strong> during the run-up in
+        cannabis-sector stocks shortly after its IPO.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartGainers" height="220"></canvas></div>
+        <figcaption>Top 10 single-ticker, single-month returns, 2015–2019.</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>4. The steepest single-month drops cluster around small, thinly-traded names</h2>
+      <p>
+        The mirror image holds on the downside: the ten steepest single-month declines all
+        belong to small or thinly-traded tickers such as Eagle Point Income (EIC), China Index
+        Holdings (CIH), and Intercorp Financial Services (IFS), several losing more than 95% of
+        their value in a single month. A number of these coincide with corporate actions —
+        reverse splits, SPAC-related reclassifications, or ADR ratio changes — that can produce
+        an extreme reported return without necessarily reflecting a pure trading loss; see the
+        data notes below for how these were screened.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartLosers" height="220"></canvas></div>
+        <figcaption>Steepest 10 single-ticker, single-month returns, 2015–2019.</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>5. ETFs out-gained individual stocks on average, with less noise</h2>
+      <p>
+        Across the whole period, the 94,716 ETF ticker-months averaged
+        <strong>+0.28% per month</strong>, versus <strong>+0.12% for the 255,371 individual
+        stock ticker-months</strong> — ETFs came out ahead by more than double. That fits the
+        diversification story: a single ETF smooths out the wild single-month swings that drive
+        the top-gainer and top-loser lists above, so the average tilts positive even without any
+        single spectacular winner.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartStocksEtfs" height="140"></canvas></div>
+        <figcaption>Average monthly return, individual stocks vs. ETFs.</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>6. Where a stock lists lines up with how it performed</h2>
+      <p>
+        Breaking average return down by listing exchange, <strong>NYSE American — home to a lot
+        of small and micro-cap listings — was the only exchange with a negative average return
+        (−0.81%)</strong>. The other four venues were all positive: Cboe BZX led at +0.34%,
+        followed by NYSE Arca (+0.24%), NYSE (+0.19%), and Nasdaq (+0.13%). This lines up with
+        exchange listing standards — the larger, more established exchanges skew toward larger,
+        steadier companies.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartByExchange" height="130"></canvas></div>
+        <figcaption>Average monthly return by listing exchange.</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>7. A handful of tickers were positive in 4 out of every 5 months</h2>
+      <p>
+        Looking only at tickers with at least 48 of the 60 months present, and ranking by the
+        share of months with a positive return, the top of the list is dominated by short-term
+        bond and cash-management ETFs (NEAR, MINT, SHV, FLOT) — positive 76–85% of months, which
+        makes sense for funds designed to barely move. The interesting exception is
+        <strong>Copart (CPRT), an ordinary common stock that was positive in 76.7% of months</strong>
+        with a +2.79% average monthly return, making it the most consistent outright grower in
+        the data, alongside waste-hauler Waste Connections (WCN).
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartConsistency" height="220"></canvas></div>
+        <figcaption>Top 10 tickers by share of months with a positive return (min. 48 of 60 months present).</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>8. Trading activity concentrates in a small set of giant, familiar names</h2>
+      <p>
+        Ranking tickers by average monthly trading volume tells a very different story from the
+        return-based rankings above: the most actively traded ticker in the data was
+        <strong>SPY, the S&amp;P 500 ETF, at just under 2 billion shares a month on average</strong>,
+        followed by Bank of America (BAC) and AMD. Six of the top ten are either broad-market
+        ETFs (SPY, EEM, XLF, GDX) or mega-cap stocks (BAC, GE, F, AAPL) — the names everyone
+        already knows, not the small caps that dominate the gainer/loser lists.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartVolume" height="220"></canvas></div>
+        <figcaption>Top 10 tickers by average monthly trading volume, 2015–2019.</figcaption>
+      </div>
+    </section>
+
+  </article>
+
+  <section class="closing">
+    <h2>About this data</h2>
+    <p>
+      The source is the <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">Stock Market Dataset</a>
+      by jacksoncrow on Kaggle — daily historical open/high/low/close/volume prices for U.S.
+      stocks and ETFs, plus a NASDAQ/NYSE ticker metadata file. <strong>One row in the working
+      dataset is one ticker in one calendar month</strong>: daily prices were aggregated into
+      monthly open (first trading day's open), close (last trading day's close), high/low
+      (the month's extremes), and volume (the month's total), for January 2015 through
+      December 2019.
+    </p>
+    <dl>
+      <dt>Rows dropped</dt>
+      <dd>
+        From the ~397,000 raw ticker-months, rows were dropped if: the ticker had fewer than 15
+        trading days that month (partial listing/delisting months); the month's opening price
+        was below $5 or above $500 (penny stocks and a handful of implausibly high per-share
+        prices for obscure tickers are the most noise-prone); the computed return was beyond
+        ±200% (±60% for ETFs, since a diversified fund realistically cannot move that much in a
+        month) — in this dataset, moves beyond that threshold were essentially always stock
+        splits, ticker reassignment, or other data artifacts rather than real trading, most
+        visibly a handful of tickers showing million-percent "gains." About 12% of ticker-months
+        were dropped by these rules, leaving 350,243.
+      </dd>
+      <dt>How the numbers are computed</dt>
+      <dd>
+        <code>ReturnPct = (MonthClose − MonthOpen) / MonthOpen × 100</code>. Every "average
+        return" figure above is the simple (equal-weighted) mean of ReturnPct across the
+        ticker-months in that group — a $50B company and a $50M company count equally. "Average
+        monthly volume" for a ticker is the mean of that ticker's MonthVolume across the months
+        it appears. The reproduction scripts are in <code>scripts/</code>.
+      </dd>
+    </dl>
+  </section>
+</main>
+
+<footer class="site-footer">
+  Data: <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">jacksoncrow/stock-market-dataset</a> on Kaggle · Built for Financial Data Analytics
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/report.js"></script>
+</body>
+</html>

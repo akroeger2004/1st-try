@@ -1,0 +1,144 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Dashboard — Market Movers</title>
+<link rel="stylesheet" href="css/style.css">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+</head>
+<body>
+
+<nav class="site-nav">
+  <a class="brand" href="index.html">Market <span>Movers</span></a>
+  <div class="links">
+    <a href="index.html">Report</a>
+    <a href="dashboard.html" class="active">Dashboard</a>
+  </div>
+  <a class="repo-link" href="https://github.com/akroeger2004/stock-analysis" target="_blank" rel="noopener">Source on GitHub ↗</a>
+</nav>
+
+<main>
+  <header class="page-header">
+    <h1>Dashboard</h1>
+    <p class="byline">Filter the full 350,243-row panel of monthly stock &amp; ETF data and see every number recompute live.</p>
+  </header>
+
+  <div id="loadingNote" class="loading-note">Loading 350,243 rows of price data…</div>
+
+  <div id="dashboardBody" style="display:none">
+
+    <div class="filter-bar">
+      <div class="filter-field">
+        <label for="filterYear">Year</label>
+        <select id="filterYear"><option value="">All years</option></select>
+      </div>
+      <div class="filter-field">
+        <label for="filterTicker">Ticker contains</label>
+        <input type="text" id="filterTicker" placeholder="e.g. AAPL">
+      </div>
+      <div class="filter-field">
+        <label for="filterExchange">Exchange</label>
+        <select id="filterExchange"><option value="">All exchanges</option></select>
+      </div>
+      <div class="filter-field">
+        <label for="filterAssetType">Asset type</label>
+        <select id="filterAssetType">
+          <option value="">Stocks + ETFs</option>
+          <option value="N">Stocks only</option>
+          <option value="Y">ETFs only</option>
+        </select>
+      </div>
+      <button id="resetFilters" type="button">Reset filters</button>
+    </div>
+
+    <p class="result-note" id="resultNote"></p>
+
+    <section class="stat-grid" aria-label="Live summary numbers">
+      <div class="stat-tile">
+        <div class="label">Ticker-months in view</div>
+        <div class="value" id="sumRows">—</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Unique tickers in view</div>
+        <div class="value" id="sumTickers">—</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Average return in view</div>
+        <div class="value" id="sumReturn">—</div>
+      </div>
+      <div class="stat-tile">
+        <div class="label">Total volume in view</div>
+        <div class="value" id="sumVolume">—</div>
+      </div>
+    </section>
+
+    <div class="chart-grid">
+      <div class="chart-card">
+        <div class="chart-head">
+          <h3>Breakdown</h3>
+          <div class="switches">
+            <select id="measureSelect">
+              <option value="avgReturn">Average return</option>
+              <option value="medianReturn">Median return</option>
+              <option value="totalVolume">Total volume</option>
+              <option value="count">Ticker-months</option>
+            </select>
+            <select id="breakdownSelect">
+              <option value="year">by Year</option>
+              <option value="exch">by Exchange</option>
+              <option value="asset">by Stock / ETF</option>
+            </select>
+          </div>
+        </div>
+        <div class="chart-canvas-wrap"><canvas id="chartBreakdown"></canvas></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head"><h3>Average return by month</h3></div>
+        <div class="chart-canvas-wrap"><canvas id="chartTrendDash"></canvas></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head"><h3>Top 10 gainers in view</h3></div>
+        <div class="chart-canvas-wrap"><canvas id="chartGainersDash"></canvas></div>
+      </div>
+
+      <div class="chart-card">
+        <div class="chart-head"><h3>Return distribution</h3></div>
+        <div class="chart-canvas-wrap"><canvas id="chartDist"></canvas></div>
+      </div>
+    </div>
+
+    <section class="table-section">
+      <h2>Data behind the current view</h2>
+      <p class="result-note" id="tableNote"></p>
+      <div class="table-wrap">
+        <table class="data-table" id="dataTable">
+          <thead>
+            <tr>
+              <th data-key="sym">Ticker</th>
+              <th data-key="exch">Exchange</th>
+              <th data-key="ym">Month</th>
+              <th data-key="open">Open</th>
+              <th data-key="close">Close</th>
+              <th data-key="volume">Volume</th>
+              <th data-key="ret">Return</th>
+            </tr>
+          </thead>
+          <tbody id="tableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<footer class="site-footer">
+  Data: <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" rel="noopener">jacksoncrow/stock-market-dataset</a> on Kaggle · Built for Financial Data Analytics
+</footer>
+
+<script src="js/common.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>
