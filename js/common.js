@@ -2,6 +2,10 @@
 // properties, so charts always match the active light/dark theme) and number
 // formatting.
 
+// Charts redraw on every filter change (including live as you type a ticker
+// search), so skip the grow-in animation - it fights with rapid updates.
+if (typeof Chart !== 'undefined') Chart.defaults.animation = false;
+
 function getColors() {
   const s = getComputedStyle(document.documentElement);
   const v = (name) => s.getPropertyValue(name).trim();

@@ -112,6 +112,7 @@
 
     <section class="table-section">
       <h2>Data behind the current view</h2>
+      <p class="result-note">Click any row, or any bar in "Top 10 gainers in view", to see that ticker's full profile.</p>
       <p class="result-note" id="tableNote"></p>
       <div class="table-wrap">
         <table class="data-table" id="dataTable">
@@ -131,6 +132,25 @@
       </div>
     </section>
 
+  </div>
+
+  <div id="tickerModal" class="modal-overlay" hidden>
+    <div class="modal-panel" role="dialog" aria-modal="true" aria-labelledby="modalTickerName">
+      <button id="modalClose" class="modal-close" type="button" aria-label="Close">&times;</button>
+      <div class="modal-header">
+        <h2 id="modalTickerName">—</h2>
+        <p class="modal-sub" id="modalTickerSub"></p>
+      </div>
+      <div class="stat-grid modal-stats" id="modalStats"></div>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap" style="height:220px"><canvas id="chartTickerPrice"></canvas></div>
+        <figcaption>Month-end close price across the months this ticker appears in the data.</figcaption>
+      </div>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap" style="height:180px"><canvas id="chartTickerReturns"></canvas></div>
+        <figcaption>Monthly return for this ticker, colored by gain/loss.</figcaption>
+      </div>
+    </div>
   </div>
 </main>
 

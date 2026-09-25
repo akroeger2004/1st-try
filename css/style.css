@@ -411,6 +411,66 @@ table.data-table tbody tr:hover { background: var(--gridline); }
 td.positive { color: var(--delta-good); }
 td.negative { color: var(--delta-bad); }
 
+table.data-table tbody tr.clickable-row { cursor: pointer; }
+
+/* ---------- Ticker detail modal ---------- */
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(11,11,11,0.45);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 40px 16px;
+  overflow-y: auto;
+  z-index: 100;
+}
+
+.modal-overlay[hidden] { display: none; }
+
+.modal-panel {
+  background: var(--surface-1);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  max-width: 720px;
+  width: 100%;
+  padding: 28px 28px 20px;
+  position: relative;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}
+
+.modal-close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--page-plane);
+  color: var(--text-secondary);
+  font-size: 1.2rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-close:hover { background: var(--gridline); }
+
+.modal-header h2 {
+  margin: 0 0 4px;
+  font-size: 1.3rem;
+  padding-right: 36px;
+}
+
+.modal-sub {
+  margin: 0 0 18px;
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+}
+
+.modal-stats { margin: 0 0 20px; }
+
 .loading-note {
   color: var(--text-muted);
   font-size: 0.9rem;

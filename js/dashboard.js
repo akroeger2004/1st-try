@@ -5,6 +5,8 @@ const EXCHANGE_NAMES = { A: 'NYSE American', N: 'NYSE', P: 'NYSE Arca', Q: 'Nasd
 const ASSET_NAMES = { N: 'Stock', Y: 'ETF' };
 
 let ROWS = [];
+let TICKER_META = {};
+let TICKER_ROWS = {};
 let charts = {};
 let sortState = { key: 'ret', dir: 'desc' };
 
@@ -29,6 +31,52 @@ async function loadData() {
     });
   }
   return rows;
+}
+
+// tickers_meta.csv has security names that may contain commas inside quotes
+// ("Agilent Technologies, Inc. Common Stock"), so it needs a quote-aware
+// split; monthly_stock_data.csv never contains quotes, so loadData() above
+// can use a plain split(',').
+function parseCsvLine(line) {
+  const out = [];
+  let cur = '', inQuotes = false;
+  for (let i = 0; i < line.length; i++) {
+    const ch = line[i];
+    if (inQuotes) {
+      if (ch === '"') {
+        if (line[i + 1] === '"') { cur += '"'; i++; } else { inQuotes = false; }
+      } else cur += ch;
+    } else if (ch === '"') {
+      inQuotes = true;
+    } else if (ch === ',') {
+      out.push(cur); cur = '';
+    } else {
+      cur += ch;
+    }
+  }
+  out.push(cur);
+  return out;
+}
+
+async function loadTickerMeta() {
+  const res = await fetch('data/tickers_meta.csv');
+  const text = await res.text();
+  const lines = text.split('\n');
+  const meta = {};
+  for (let i = 1; i < lines.length; i++) {
+    const line = lines[i];
+    if (!line) continue;
+    const f = parseCsvLine(line);
+    meta[f[0]] = { name: f[1], exch: f[2], mcat: f[3], etf: f[4] };
+  }
+  return meta;
+}
+
+function buildTickerIndex(rows) {
+  const idx = {};
+  rows.forEach((r) => { (idx[r.sym] = idx[r.sym] || []).push(r); });
+  Object.values(idx).forEach((arr) => arr.sort((a, b) => a.ym.localeCompare(b.ym)));
+  return idx;
 }
 
 function populateFilterOptions(rows) {
@@ -201,13 +249,15 @@ function renderGainersChart(rows) {
       indexAxis: 'y',
       responsive: true,
       maintainAspectRatio: false,
+      onClick: (evt, elements) => { if (elements.length) openTickerModal(top[elements[0].index].sym); },
+      onHover: (evt, elements) => { evt.native.target.style.cursor = elements.length ? 'pointer' : 'default'; },
       plugins: {
         legend: { display: false },
         tooltip: {
           ...baseTooltip(c),
           callbacks: {
             title: (items) => `${top[items[0].dataIndex].sym} · ${top[items[0].dataIndex].ym}`,
-            label: (ctx) => fmtPct(ctx.parsed.x),
+            label: (ctx) => fmtPct(ctx.parsed.x) + ' — click bar for full profile',
           },
         },
       },
@@ -258,7 +308,7 @@ function renderTable(rows) {
   const shown = sorted.slice(0, 300);
   const tbody = document.getElementById('tableBody');
   tbody.innerHTML = shown.map((r) => `
-    <tr>
+    <tr class="clickable-row" data-sym="${r.sym}">
       <td>${r.sym}</td>
       <td>${EXCHANGE_NAMES[r.exch] || r.exch}${r.etf === 'Y' ? ' · ETF' : ''}</td>
       <td>${r.ym}</td>
@@ -269,6 +319,114 @@ function renderTable(rows) {
     </tr>`).join('');
   document.getElementById('tableNote').textContent =
     `Showing ${fmtNumber(shown.length)} of ${fmtNumber(rows.length)} ticker-months in view, sorted by ${sortState.key} (${sortState.dir}).`;
+}
+
+// ---------- Ticker detail modal ----------
+
+function openTickerModal(sym) {
+  const rows = TICKER_ROWS[sym];
+  if (!rows || !rows.length) return;
+  const meta = TICKER_META[sym] || {};
+  const c = getColors();
+  const first = rows[0];
+  const last = rows[rows.length - 1];
+  const totalReturn = ((last.close - first.open) / first.open) * 100;
+  const avgReturn = mean(rows.map((r) => r.ret));
+  const avgVolume = mean(rows.map((r) => r.volume));
+  const best = rows.reduce((a, b) => (b.ret > a.ret ? b : a));
+  const worst = rows.reduce((a, b) => (b.ret < a.ret ? b : a));
+
+  document.getElementById('modalTickerName').textContent = `${sym} — ${meta.name || 'Company name unavailable'}`;
+  document.getElementById('modalTickerSub').textContent =
+    `${EXCHANGE_NAMES[meta.exch] || meta.exch || 'Unknown exchange'} · ${ASSET_NAMES[meta.etf] || 'Unknown type'} · ` +
+    `${rows.length} of 60 months in the data (${first.ym} to ${last.ym})`;
+
+  document.getElementById('modalStats').innerHTML = `
+    <div class="stat-tile">
+      <div class="label">Total return over span</div>
+      <div class="value ${totalReturn >= 0 ? 'good' : 'bad'}">${fmtPct(totalReturn)}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Avg monthly return</div>
+      <div class="value ${avgReturn >= 0 ? 'good' : 'bad'}">${fmtPct(avgReturn)}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Best month</div>
+      <div class="value good">${fmtPct(best.ret)}</div>
+      <div class="sub">${best.ym}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Worst month</div>
+      <div class="value bad">${fmtPct(worst.ret)}</div>
+      <div class="sub">${worst.ym}</div>
+    </div>
+    <div class="stat-tile">
+      <div class="label">Avg monthly volume</div>
+      <div class="value">${fmtCompact(avgVolume)}</div>
+    </div>
+  `;
+
+  if (charts.tickerPrice) charts.tickerPrice.destroy();
+  charts.tickerPrice = new Chart(document.getElementById('chartTickerPrice'), {
+    type: 'line',
+    data: {
+      labels: rows.map((r) => r.ym),
+      datasets: [{
+        data: rows.map((r) => r.close), borderColor: c.series[0], backgroundColor: c.series[0] + '1a',
+        fill: true, tension: 0.15, borderWidth: 2, pointRadius: 0, pointHoverRadius: 5,
+        pointHoverBackgroundColor: c.series[0], pointHoverBorderColor: c.surface, pointHoverBorderWidth: 2,
+      }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { ...baseTooltip(c), callbacks: { label: (ctx) => '$' + ctx.parsed.y.toFixed(2) } } },
+      scales: baseScales(c, {
+        x: { ticks: { maxTicksLimit: 8, maxRotation: 0 } },
+        y: { beginAtZero: false, ticks: { callback: (v) => '$' + v } },
+      }),
+    },
+  });
+
+  if (charts.tickerReturns) charts.tickerReturns.destroy();
+  charts.tickerReturns = new Chart(document.getElementById('chartTickerReturns'), {
+    type: 'bar',
+    data: {
+      labels: rows.map((r) => r.ym),
+      datasets: [{ data: rows.map((r) => r.ret), backgroundColor: rows.map((r) => signColor(r.ret, c)), borderRadius: 3, maxBarThickness: 14 }],
+    },
+    options: {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { display: false }, tooltip: { ...baseTooltip(c), callbacks: { label: (ctx) => fmtPct(ctx.parsed.y) } } },
+      scales: baseScales(c, {
+        x: { ticks: { maxTicksLimit: 8, maxRotation: 0 } },
+        y: { beginAtZero: true, ticks: { callback: (v) => v + '%' } },
+      }),
+    },
+  });
+
+  document.getElementById('tickerModal').hidden = false;
+  document.body.style.overflow = 'hidden';
+}
+
+function closeTickerModal() {
+  document.getElementById('tickerModal').hidden = true;
+  document.body.style.overflow = '';
+}
+
+function setupModal() {
+  document.getElementById('modalClose').addEventListener('click', closeTickerModal);
+  document.getElementById('tickerModal').addEventListener('click', (e) => {
+    if (e.target.id === 'tickerModal') closeTickerModal();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeTickerModal();
+  });
+  document.getElementById('tableBody').addEventListener('click', (e) => {
+    const tr = e.target.closest('tr');
+    if (tr && tr.dataset.sym) openTickerModal(tr.dataset.sym);
+  });
 }
 
 function setupTableSort() {
@@ -307,11 +465,16 @@ function resetFilters() {
 }
 
 async function init() {
-  ROWS = await loadData();
+  const [rows, meta] = await Promise.all([loadData(), loadTickerMeta()]);
+  ROWS = rows;
+  TICKER_META = meta;
+  TICKER_ROWS = buildTickerIndex(ROWS);
+
   document.getElementById('loadingNote').remove();
   document.getElementById('dashboardBody').style.display = '';
   populateFilterOptions(ROWS);
   setupTableSort();
+  setupModal();
 
   ['filterYear', 'filterExchange', 'filterAssetType', 'measureSelect', 'breakdownSelect']
     .forEach((id) => document.getElementById(id).addEventListener('change', renderAll));
