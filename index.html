@@ -28,13 +28,15 @@
       two sources: the full universe of 7,681 tickers for 2015–2019, and the 1,000 highest-volume
       tickers from that same universe tracked forward into 2020–present. I aggregated raw daily
       prices into monthly open/high/low/close/volume records, then ranked each era's best
-      performers over the whole period — not a single spike month — and compared the two
+      performers over the whole period by return relative to volatility — not a single spike
+      month, and not a raw average that one huge month can dominate — and compared the two
       leaderboards directly. The headline findings: the COVID crash of March 2020 was more than
-      twice as severe as the previous worst month on record, and of the ten best-performing
-      tickers in 2015–2019 and the ten best in 2020–present, only Nvidia appears on both lists —
-      every other 2015–2019 leader was consumer-internet or biotech, and every other 2020–present
-      leader is part of the AI buildout's physical supply chain: chips, storage, networking, and
-      the power to run it.
+      twice as severe as the previous worst month on record, and of the ten best risk-adjusted
+      performers in 2015–2019 and the ten best in 2020–present, zero tickers appear on both lists
+      (Nvidia comes closest — 2nd in 2020–present, 13th in 2015–2019): the 2015–2019 leaders are
+      steady blue-chip compounders and payments companies, the 2020–present leaders are almost
+      entirely the AI buildout's physical supply chain — chips, storage, networking, and the
+      power to run it.
     </p>
   </header>
 
@@ -55,9 +57,9 @@
       <div class="sub">equal-weighted, all ticker-months</div>
     </div>
     <div class="stat-tile">
-      <div class="label">Top performer, both eras</div>
-      <div class="value good">NVDA</div>
-      <div class="sub">only name in both eras' top 10</div>
+      <div class="label">Top performers, both eras</div>
+      <div class="value good">0 overlap</div>
+      <div class="sub">of 10, by risk-adjusted return (NVDA closest, #2 &amp; #13)</div>
     </div>
     <div class="stat-tile">
       <div class="label">Worst market-wide month</div>
@@ -108,51 +110,58 @@
     </section>
 
     <section class="finding">
-      <h2>3. The best performers of 2015–2019, ranked over the whole period</h2>
+      <h2>3. The best performers of 2015–2019, ranked by return relative to volatility</h2>
       <p>
-        Rather than a single spike month, this ranks the 805 cross-era-tracked tickers by their
-        <strong>average monthly return across all of 2015–2019</strong>, limited to names positive
-        in at least half those months (so a one-time pop can't carry a ticker to the top).
-        <strong>Sarepta Therapeutics (SRPT) leads at +7.14%/month</strong>, followed by e-commerce
-        names Shopify and Wayfair, Nvidia, Chinese education stocks TAL and New Oriental (EDU),
-        dating-app operator Match Group, Netflix, and two volatility/leverage ETFs (SVXY, TQQQ —
-        trading instruments, not operating companies, included here because the ranking is
-        purely mechanical).
+        An earlier version of this ranking used plain average monthly return, but that's still
+        dominated by one or two extreme months for volatile names — Sarepta Therapeutics
+        averaged +7.1%/month in 2015–2019, but that figure was driven almost entirely by two
+        +100%+ months (Sep 2016, May 2015) sitting alongside a -68.6% month and a -39.7% month;
+        it's a lottery ticket, not a consistent performer. This ranking instead divides each
+        ticker's average monthly return by its <em>volatility</em> (the standard deviation of its
+        monthly returns) — a return-per-unit-of-risk score — among the same 805 cross-era-tracked
+        tickers. <strong>Fiserv (FISV) leads</strong>, followed by a short-term bond ETF (low
+        return, but extremely low volatility), Adobe, waste-hauler Republic Services, auto-auction
+        operator Copart, payments processor Global Payments, Shopify, another short-term bond ETF,
+        Chinese education stock TAL, and Mastercard — a much steadier, more "boring" list than a
+        pure-return ranking produces.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartTop2015" height="220"></canvas></div>
-        <figcaption>Top 10 by average monthly return, full 2015–2019 period (min. 50% of months positive).</figcaption>
+        <figcaption>Top 10 by return ÷ volatility, full 2015–2019 period (bar height is average monthly return; ranking order is the risk-adjusted score).</figcaption>
       </div>
     </section>
 
     <section class="finding">
-      <h2>4. The best performers of 2020–present, ranked over the whole period</h2>
+      <h2>4. The best performers of 2020–present, same method</h2>
       <p>
-        Same method, applied to 2020–present. <strong>Nvidia (NVDA) leads again</strong>, but
-        every other name has changed: Micron, Western Digital, Seagate, Marvell, and Lam Research
-        are memory, storage, and chip-equipment makers; Lumentum makes the optical networking gear
-        that connects GPUs inside AI data centers; Range Resources and Targa Resources are natural
-        gas producers benefiting from those same data centers' power demand; Tesla is the one name
-        outside that cluster. This isn't a coincidence — it's the AI buildout's supply chain,
-        almost top to bottom.
+        Applying the identical risk-adjusted ranking to 2020–present produces a completely
+        different list, led by <strong>Quanta Services (PWR) and Nvidia (NVDA)</strong>, essentially
+        tied. The rest is healthcare distributor McKesson, Eli Lilly, and a cluster of
+        semiconductor names — Broadcom, the VanEck Semiconductor ETF, KLA, Jabil, and Flex — plus
+        a Japan-equity ETF. Five of the top ten are directly tied to AI-era chip manufacturing or
+        the infrastructure around it, echoing the same theme as the plain-return ranking, just
+        with steadier names topping the list instead of the single most explosive ones.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartTop2020" height="220"></canvas></div>
-        <figcaption>Top 10 by average monthly return, 2020–present (min. 50% of months positive).</figcaption>
+        <figcaption>Top 10 by return ÷ volatility, 2020–present (bar height is average monthly return; ranking order is the risk-adjusted score).</figcaption>
       </div>
     </section>
 
     <section class="finding">
-      <h2>5. Only one name held its spot: the leaderboard almost completely turned over</h2>
+      <h2>5. Under this stricter measure, not even Nvidia held its spot in both eras</h2>
       <p>
-        Comparing the two top-10 lists directly, <strong>Nvidia is the only ticker that appears in
-        both</strong> — every other name is unique to its era. The 2015–2019 list skews toward
-        consumer-internet and biotech breakouts, several of which later collapsed: TAL and EDU
-        (China Education) fell -75.8% and -73.5% in July 2021 alone when Beijing banned for-profit
-        tutoring in core school subjects, wiping out most of the value behind their 2015–2019
-        ranking. The 2020–present list is almost entirely the physical infrastructure of the AI
-        buildout — chips, storage, networking, and the power to run it — a theme that didn't
-        meaningfully exist as a stock-market story in 2015–2019.
+        Comparing the two top-10 lists directly, <strong>zero tickers appear in both</strong>.
+        Nvidia comes closest — 2nd in 2020–present, but only 13th in 2015–2019, just outside the
+        cut. Every other name is unique to its era: the 2015–2019 list is dominated by steady
+        blue-chip compounders and payments companies, the 2020–present list by AI-era
+        semiconductor names. The starkest illustration of how little a good track record
+        guarantees: <strong>TAL Education ranked 9th in 2015–2019 by this same risk-adjusted
+        measure</strong> — genuinely one of the steadier, better performers of its era, not a
+        fluke — and still fell -75.8% in a single month (July 2021) when Beijing banned
+        for-profit tutoring in core school subjects, wiping out most of the value behind that
+        ranking. Consistency within a period is not protection against a regime change the
+        ranking has no way to see coming.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartTurnover" height="140"></canvas></div>
@@ -366,11 +375,12 @@
       <dt>How the per-era top-10 rankings (sections 3–5) are computed</dt>
       <dd>
         Limited to the 805 tickers with substantial coverage in both eras (the same pool used in
-        section 11), and within each era, further limited to tickers positive in at least 50% of
-        that era's months — this excludes anything that owes its ranking to a single spike month.
-        Among that filtered set, tickers are ranked by average monthly return within the era.
-        Section 3 and section 4 are computed independently of each other; section 5 is simply the
-        set overlap between the two resulting top-10 lists.
+        section 11). Within each era, every ticker's monthly returns are summarized as a mean and
+        a standard deviation (its volatility); the ranking score is mean ÷ standard deviation — a
+        monthly Sharpe-like ratio, so a name only ranks highly if its typical month was good
+        <em>relative to how much it swings</em>, not because one or two extreme months pulled its
+        average up. Section 3 and section 4 are computed independently of each other; section 5 is
+        simply the set overlap between the two resulting top-10 lists.
       </dd>
       <dt>How "cross-era consistency" (section 11) is computed</dt>
       <dd>

@@ -69,31 +69,39 @@ const CROSS_ERA_LEADERS = [
   { sym: 'TSCO', r1: 0.537, r2: 0.874 },
 ];
 
-// Top 10 performers OVER THE WHOLE PERIOD (not one spike month), ranked by
-// average monthly return among the 805 cross-era-tracked tickers with a
-// return positive in at least half that era's months. Computed independently
-// per era - see index.html section 5 for the comparison between the two.
+// Top 10 performers OVER THE WHOLE PERIOD, ranked by a risk-adjusted score
+// (mean monthly return / standard deviation of monthly returns - a monthly
+// Sharpe-like ratio) among the 805 cross-era-tracked tickers, not by raw
+// average return. A plain average is still dominated by one or two huge
+// spike months for volatile names (e.g. Sarepta Therapeutics averaged
+// +7.1%/month in 2015-2019, but that was driven almost entirely by two
+// +100%+ months - see index.html section 3 for why that ticker was dropped
+// in favor of this ranking). The bar height below is still the average
+// monthly return (the number people read); the *ranking order* is the
+// risk-adjusted score. Computed independently per era.
 const TOP_2015_2019 = [
-  { sym: 'SRPT', pct: 58.3, avg: 7.143 }, { sym: 'SHOP', pct: 69.1, avg: 5.347 },
-  { sym: 'NVDA', pct: 65.0, avg: 4.680 }, { sym: 'W', pct: 55.0, avg: 4.540 },
-  { sym: 'TAL', pct: 59.3, avg: 4.446 }, { sym: 'MTCH', pct: 67.3, avg: 4.134 },
-  { sym: 'NFLX', pct: 66.7, avg: 3.839 }, { sym: 'SVXY', pct: 70.7, avg: 3.639 },
-  { sym: 'TQQQ', pct: 65.0, avg: 3.495 }, { sym: 'EDU', pct: 61.7, avg: 3.431 },
+  { sym: 'FISV', score: 0.485, avg: 2.199 }, { sym: 'VCSH', score: 0.445, avg: 0.203 },
+  { sym: 'ADBE', score: 0.439, avg: 2.617 }, { sym: 'RSG', score: 0.438, avg: 1.333 },
+  { sym: 'CPRT', score: 0.431, avg: 2.794 }, { sym: 'GPN', score: 0.429, avg: 2.584 },
+  { sym: 'SHOP', score: 0.422, avg: 5.347 }, { sym: 'SHY', score: 0.420, avg: 0.112 },
+  { sym: 'TAL', score: 0.405, avg: 4.446 }, { sym: 'MA', score: 0.402, avg: 1.941 },
 ];
 
 const TOP_2020_PRESENT = [
-  { sym: 'NVDA', pct: 65.9, avg: 5.221 }, { sym: 'MU', pct: 56.1, avg: 4.907 },
-  { sym: 'TSLA', pct: 52.4, avg: 4.802 }, { sym: 'WDC', pct: 61.0, avg: 4.341 },
-  { sym: 'STX', pct: 61.0, avg: 4.290 }, { sym: 'MRVL', pct: 58.5, avg: 4.215 },
-  { sym: 'LITE', pct: 56.1, avg: 4.147 }, { sym: 'RRC', pct: 53.7, avg: 4.080 },
-  { sym: 'TRGP', pct: 62.2, avg: 3.996 }, { sym: 'LRCX', pct: 57.3, avg: 3.959 },
+  { sym: 'PWR', score: 0.394, avg: 3.740 }, { sym: 'NVDA', score: 0.394, avg: 5.221 },
+  { sym: 'DXJ', score: 0.360, avg: 1.503 }, { sym: 'MCK', score: 0.343, avg: 2.395 },
+  { sym: 'LLY', score: 0.336, avg: 3.013 }, { sym: 'AVGO', score: 0.332, avg: 3.574 },
+  { sym: 'SMH', score: 0.328, avg: 2.992 }, { sym: 'KLAC', score: 0.312, avg: 3.718 },
+  { sym: 'JBL', score: 0.311, avg: 3.129 }, { sym: 'FLEX', score: 0.308, avg: 3.922 },
 ];
 
-// Overlap between the two top-10 lists above, for the turnover chart.
+// Overlap between the two top-10 lists above, for the turnover chart. Under
+// this stricter risk-adjusted ranking, zero tickers appear in both top 10s
+// (NVDA is closest - #2 in 2020-present, but only #13 in 2015-2019).
 const TURNOVER = [
-  { label: '2015-2019 only', count: 9 },
-  { label: 'Both eras', count: 1 },
-  { label: '2020-present only', count: 9 },
+  { label: '2015-2019 only', count: 10 },
+  { label: 'Both eras', count: 0 },
+  { label: '2020-present only', count: 10 },
 ];
 
 const STOCKS_VS_ETFS = [
@@ -204,7 +212,7 @@ function renderReportCharts() {
           ...baseTooltip(c),
           callbacks: {
             title: (items) => TOP_2015_2019[items[0].dataIndex].sym,
-            label: (ctx) => [`Avg monthly return: ${fmtPct(ctx.parsed.x)}`, `${TOP_2015_2019[ctx.dataIndex].pct}% of months positive`],
+            label: (ctx) => [`Avg monthly return: ${fmtPct(ctx.parsed.x)}`, `Risk-adjusted score: ${TOP_2015_2019[ctx.dataIndex].score.toFixed(3)}`],
           },
         },
       },
@@ -233,7 +241,7 @@ function renderReportCharts() {
           ...baseTooltip(c),
           callbacks: {
             title: (items) => TOP_2020_PRESENT[items[0].dataIndex].sym,
-            label: (ctx) => [`Avg monthly return: ${fmtPct(ctx.parsed.x)}`, `${TOP_2020_PRESENT[ctx.dataIndex].pct}% of months positive`],
+            label: (ctx) => [`Avg monthly return: ${fmtPct(ctx.parsed.x)}`, `Risk-adjusted score: ${TOP_2020_PRESENT[ctx.dataIndex].score.toFixed(3)}`],
           },
         },
       },
