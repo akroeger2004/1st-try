@@ -564,4 +564,10 @@ async function init() {
   renderAll();
 }
 
-document.addEventListener('DOMContentLoaded', init);
+// Same guard as report.js: this script is at the end of <body>, so
+// DOMContentLoaded may already have fired before this listener attaches.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}

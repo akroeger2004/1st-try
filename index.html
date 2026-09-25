@@ -27,13 +27,14 @@
       January 2015 through September 2026 — 414,608 ticker-months in total. The dataset blends
       two sources: the full universe of 7,681 tickers for 2015–2019, and the 1,000 highest-volume
       tickers from that same universe tracked forward into 2020–present. I aggregated raw daily
-      prices into monthly open/high/low/close/volume records, then looked at which tickers,
-      exchanges, eras, and years produced the biggest gains and losses. The headline findings: the
-      COVID crash of March 2020 was more than twice as severe as the previous worst month on
-      record, the rebound started almost immediately, the market's post-2020 leaders looked very
-      different from its 2015–2019 leaders (Nvidia went from a $6 stock to the most actively
-      traded ticker in the data), and about a fifth of the original top-volume names from
-      2015–2019 were gone by 2020 — acquired, delisted, or renamed.
+      prices into monthly open/high/low/close/volume records, then ranked each era's best
+      performers over the whole period — not a single spike month — and compared the two
+      leaderboards directly. The headline findings: the COVID crash of March 2020 was more than
+      twice as severe as the previous worst month on record, and of the ten best-performing
+      tickers in 2015–2019 and the ten best in 2020–present, only Nvidia appears on both lists —
+      every other 2015–2019 leader was consumer-internet or biotech, and every other 2020–present
+      leader is part of the AI buildout's physical supply chain: chips, storage, networking, and
+      the power to run it.
     </p>
   </header>
 
@@ -54,9 +55,9 @@
       <div class="sub">equal-weighted, all ticker-months</div>
     </div>
     <div class="stat-tile">
-      <div class="label">Best single-month gain</div>
-      <div class="value good">+193.3%</div>
-      <div class="sub">ZGNX (Zogenix), Sep 2017</div>
+      <div class="label">Top performer, both eras</div>
+      <div class="value good">NVDA</div>
+      <div class="sub">only name in both eras' top 10</div>
     </div>
     <div class="stat-tile">
       <div class="label">Worst market-wide month</div>
@@ -107,48 +108,60 @@
     </section>
 
     <section class="finding">
-      <h2>3. The biggest single-month gainers, all-time, are almost all small biotech and growth stocks</h2>
+      <h2>3. The best performers of 2015–2019, ranked over the whole period</h2>
       <p>
-        Ranking every ticker-month by return across the full 2015–present dataset, the single
-        biggest gain was still <strong>Zogenix (ZGNX), which rose 193.3% in September 2017</strong>
-        on positive trial data for an epilepsy drug — seven of the top ten are small-cap biotech
-        or specialty-pharma names from that same 2015–2019 window. Two 2020–present names do crack
-        the all-time top ten: <strong>Aurora Cannabis (ACB, +184.9% in November 2020)</strong> and
-        Jumia (JMIA, +180.4% in July 2020), both swept up in pandemic-era retail-trading manias.
+        Rather than a single spike month, this ranks the 805 cross-era-tracked tickers by their
+        <strong>average monthly return across all of 2015–2019</strong>, limited to names positive
+        in at least half those months (so a one-time pop can't carry a ticker to the top).
+        <strong>Sarepta Therapeutics (SRPT) leads at +7.14%/month</strong>, followed by e-commerce
+        names Shopify and Wayfair, Nvidia, Chinese education stocks TAL and New Oriental (EDU),
+        dating-app operator Match Group, Netflix, and two volatility/leverage ETFs (SVXY, TQQQ —
+        trading instruments, not operating companies, included here because the ranking is
+        purely mechanical).
       </p>
       <div class="chart-figure">
-        <div class="chart-canvas-wrap"><canvas id="chartGainers" height="220"></canvas></div>
-        <figcaption>Top 10 single-ticker, single-month returns, all-time (2015–present).</figcaption>
+        <div class="chart-canvas-wrap"><canvas id="chartTop2015" height="220"></canvas></div>
+        <figcaption>Top 10 by average monthly return, full 2015–2019 period (min. 50% of months positive).</figcaption>
       </div>
     </section>
 
     <section class="finding">
-      <h2>4. The steepest single-month drops cluster around small, thinly-traded names</h2>
+      <h2>4. The best performers of 2020–present, ranked over the whole period</h2>
       <p>
-        The mirror image holds on the downside: the ten steepest single-month declines all
-        belong to small or thinly-traded tickers such as Eagle Point Income (EIC), China Index
-        Holdings (CIH), and Intercorp Financial Services (IFS), several losing more than 95% of
-        their value in a single month. A number of these coincide with corporate actions —
-        reverse splits, SPAC-related reclassifications, or ADR ratio changes — that can produce
-        an extreme reported return without necessarily reflecting a pure trading loss; see the
-        data notes below for how these were screened.
+        Same method, applied to 2020–present. <strong>Nvidia (NVDA) leads again</strong>, but
+        every other name has changed: Micron, Western Digital, Seagate, Marvell, and Lam Research
+        are memory, storage, and chip-equipment makers; Lumentum makes the optical networking gear
+        that connects GPUs inside AI data centers; Range Resources and Targa Resources are natural
+        gas producers benefiting from those same data centers' power demand; Tesla is the one name
+        outside that cluster. This isn't a coincidence — it's the AI buildout's supply chain,
+        almost top to bottom.
       </p>
       <div class="chart-figure">
-        <div class="chart-canvas-wrap"><canvas id="chartLosers" height="220"></canvas></div>
-        <figcaption>Steepest 10 single-ticker, single-month returns, all-time (2015–present).</figcaption>
+        <div class="chart-canvas-wrap"><canvas id="chartTop2020" height="220"></canvas></div>
+        <figcaption>Top 10 by average monthly return, 2020–present (min. 50% of months positive).</figcaption>
       </div>
-      <p>
-        Notably, even with five more years of data added, <strong>every one of the ten steepest
-        losses still comes from the original 2015–2019 window</strong> — none of the 1,000
-        highest-volume tickers tracked into 2020–present had a single month that extreme, which
-        is itself a sign that the 2020–present slice (drawn from more established, highly-traded
-        companies) is less prone to this kind of data noise than the long tail of small caps in
-        the full 2015–2019 universe.
-      </p>
     </section>
 
     <section class="finding">
-      <h2>5. ETFs and individual stocks perform almost identically once you include 2020–present</h2>
+      <h2>5. Only one name held its spot: the leaderboard almost completely turned over</h2>
+      <p>
+        Comparing the two top-10 lists directly, <strong>Nvidia is the only ticker that appears in
+        both</strong> — every other name is unique to its era. The 2015–2019 list skews toward
+        consumer-internet and biotech breakouts, several of which later collapsed: TAL and EDU
+        (China Education) fell -75.8% and -73.5% in July 2021 alone when Beijing banned for-profit
+        tutoring in core school subjects, wiping out most of the value behind their 2015–2019
+        ranking. The 2020–present list is almost entirely the physical infrastructure of the AI
+        buildout — chips, storage, networking, and the power to run it — a theme that didn't
+        meaningfully exist as a stock-market story in 2015–2019.
+      </p>
+      <div class="chart-figure">
+        <div class="chart-canvas-wrap"><canvas id="chartTurnover" height="140"></canvas></div>
+        <figcaption>Overlap between the 2015–2019 and 2020–present top-10 performer lists.</figcaption>
+      </div>
+    </section>
+
+    <section class="finding">
+      <h2>6. ETFs and individual stocks perform almost identically once you include 2020–present</h2>
       <p>
         Across the full 2015–present dataset, the 104,615 ETF ticker-months averaged
         <strong>+0.283% per month</strong>, versus <strong>+0.277% for the 309,837 individual
@@ -164,7 +177,7 @@
     </section>
 
     <section class="finding">
-      <h2>6. Where a stock lists lines up with how it performed</h2>
+      <h2>7. Where a stock lists lines up with how it performed</h2>
       <p>
         Breaking average return down by listing exchange, <strong>NYSE American — home to a lot
         of small and micro-cap listings — remains the only exchange with a negative average
@@ -181,7 +194,7 @@
     </section>
 
     <section class="finding">
-      <h2>7. The most consistent gainers, all-time, are index funds and mega-caps — not bond ETFs</h2>
+      <h2>8. The most consistent gainers, all-time, are index funds and mega-caps — not bond ETFs</h2>
       <p>
         Looking only at tickers with at least 100 of the 141 possible months present, and ranking
         by the share of months with a positive return, the list is now dominated by the market's
@@ -198,7 +211,7 @@
     </section>
 
     <section class="finding">
-      <h2>8. Nvidia is now the single most actively traded ticker in the data</h2>
+      <h2>9. Nvidia is now the single most actively traded ticker in the data</h2>
       <p>
         Ranking tickers by average monthly trading volume tells a very different story from the
         return-based rankings above, and it changed completely once 2020–present was added:
@@ -216,7 +229,7 @@
     </section>
 
     <section class="finding">
-      <h2>9. Even holding the same companies constant, the 2020–present era has been stronger</h2>
+      <h2>10. Even holding the same companies constant, the 2020–present era has been stronger</h2>
       <p>
         The 1,000 tickers tracked into 2020–present were selected as the highest-volume names of
         2015–2019. Of those 1,000, <strong>only 805 still had usable trading data in
@@ -236,39 +249,19 @@
     </section>
 
     <section class="finding">
-      <h2>10. Meme stocks, cannabis, and crypto miners drove the biggest 2020–present single-month gains</h2>
+      <h2>11. The steadiest performers of all — consistent in both eras, not just one</h2>
       <p>
-        Within 2020–present specifically, the single biggest month was
-        <strong>Aurora Cannabis (ACB), +184.9% in November 2020</strong>, during a broad rally in
-        cannabis stocks around the U.S. election. <strong>AMC Entertainment's +158.4% in May
-        2021</strong> is the clearest meme-stock-era signature in the data, and Bitcoin-mining
-        stock Riot Platforms (RIOT, +159.2% in November 2020) reflects the crypto rally of the
-        same period. For a longer-run example outside this top-ten list: <strong>Nvidia (NVDA)
-        itself went from a split-adjusted $5.91 in January 2020 to $220.78 by August 2026 — a
-        roughly 37x increase</strong> — the single clearest expression of the AI rally in this
-        dataset.
-      </p>
-      <div class="chart-figure">
-        <div class="chart-canvas-wrap"><canvas id="chartGainersRecent" height="220"></canvas></div>
-        <figcaption>Top 10 single-ticker, single-month returns within the 2020–present era only.</figcaption>
-      </div>
-    </section>
-
-    <section class="finding">
-      <h2>11. The stocks that actually help someone invest look nothing like the "biggest gainer" lists above</h2>
-      <p>
-        Sections 3 and 10 rank tickers by their single best month — but a spike month is usually a
-        one-time news event, not a sign of quality: of the ten all-time biggest gainers in section
-        3, eight gave back 45–82% of their value within the following year. A more useful
-        question is which companies were <strong>reliably positive in both eras</strong> — not
-        just once. Filtering the 805 companies with substantial data in both periods (at least 48
-        of 60 months in 2015–2019 and 40+ months in 2020–present) and ranking by whichever era
-        each was <em>less</em> consistent in produces a very different, much steadier list of
-        roughly 100 stocks and ETFs — <strong>Nvidia (NVDA) tops it</strong>, positive in 65% of
-        months in both periods, followed by index funds, Coca-Cola, and a mix of industrials,
-        chipmakers, and healthcare names. The full ranked list of 100 is explorable in the
-        <a href="dashboard.html">dashboard</a>; the chart below shows the top 15 individual stocks
-        (ETFs excluded), comparing each one's own average return in 2015–2019 against 2020–present.
+        Sections 3 and 4 rank each era's best performers independently, which still lets a ticker
+        top the list on the strength of one era alone. A stricter cut: which companies were
+        <strong>reliably positive in both eras</strong>, at the same time. Filtering the 805
+        companies with substantial data in both periods (at least 48 of 60 months in 2015–2019 and
+        40+ months in 2020–present) and ranking by whichever era each was <em>less</em> consistent
+        in produces a steadier list of roughly 100 stocks and ETFs — <strong>Nvidia (NVDA) tops
+        it</strong>, positive in 65% of months in both periods, followed by index funds,
+        Coca-Cola, and a mix of industrials, chipmakers, and healthcare names. The full ranked
+        list of 100 is explorable in the <a href="dashboard.html">dashboard</a>; the chart below
+        shows the top 15 individual stocks (ETFs excluded), comparing each one's own average
+        return in 2015–2019 against 2020–present.
       </p>
       <div class="chart-figure">
         <div class="chart-canvas-wrap"><canvas id="chartCrossEra" height="200"></canvas></div>
@@ -358,8 +351,9 @@
       <dd>
         The 2020–present slice can only show tickers that were already among 2015–2019's top
         1,000 by volume — it cannot surface a company that IPO'd after 2019 (for example, most
-        2021-era SPACs) becoming a top mover, since it was never a candidate for inclusion.
-        Findings above that compare "all-time" rankings are only as complete as that fixed list.
+        2021-era SPACs) becoming a top performer, since it was never a candidate for inclusion.
+        Every ranking in this report that spans both eras (sections 3–5 and 11) is only as
+        complete as that fixed 1,000-ticker list.
       </dd>
       <dt>How the numbers are computed</dt>
       <dd>
@@ -368,6 +362,15 @@
         ticker-months in that group — a $50B company and a $50M company count equally. "Average
         monthly volume" for a ticker is the mean of that ticker's MonthVolume across the months
         it appears. The reproduction scripts are in <code>scripts/</code>.
+      </dd>
+      <dt>How the per-era top-10 rankings (sections 3–5) are computed</dt>
+      <dd>
+        Limited to the 805 tickers with substantial coverage in both eras (the same pool used in
+        section 11), and within each era, further limited to tickers positive in at least 50% of
+        that era's months — this excludes anything that owes its ranking to a single spike month.
+        Among that filtered set, tickers are ranked by average monthly return within the era.
+        Section 3 and section 4 are computed independently of each other; section 5 is simply the
+        set overlap between the two resulting top-10 lists.
       </dd>
       <dt>How "cross-era consistency" (section 11) is computed</dt>
       <dd>

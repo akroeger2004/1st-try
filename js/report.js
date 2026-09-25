@@ -69,27 +69,31 @@ const CROSS_ERA_LEADERS = [
   { sym: 'TSCO', r1: 0.537, r2: 0.874 },
 ];
 
-// All-time top 10, ranked across the full 2015-present dataset (not just one era)
-const TOP_GAINERS = [
-  ['ZGNX', 193.31, '2017-09'], ['DTSS', 193.00, '2018-03'], ['VERI', 192.66, '2017-09'],
-  ['PNTG', 192.52, '2019-10'], ['MYSZ', 190.91, '2018-01'], ['XFOR', 190.30, '2018-11'],
-  ['CAPR', 188.57, '2017-09'], ['ACB', 184.88, '2020-11'], ['BCDA', 184.21, '2016-12'],
-  ['JMIA', 180.36, '2020-07'],
+// Top 10 performers OVER THE WHOLE PERIOD (not one spike month), ranked by
+// average monthly return among the 805 cross-era-tracked tickers with a
+// return positive in at least half that era's months. Computed independently
+// per era - see index.html section 5 for the comparison between the two.
+const TOP_2015_2019 = [
+  { sym: 'SRPT', pct: 58.3, avg: 7.143 }, { sym: 'SHOP', pct: 69.1, avg: 5.347 },
+  { sym: 'NVDA', pct: 65.0, avg: 4.680 }, { sym: 'W', pct: 55.0, avg: 4.540 },
+  { sym: 'TAL', pct: 59.3, avg: 4.446 }, { sym: 'MTCH', pct: 67.3, avg: 4.134 },
+  { sym: 'NFLX', pct: 66.7, avg: 3.839 }, { sym: 'SVXY', pct: 70.7, avg: 3.639 },
+  { sym: 'TQQQ', pct: 65.0, avg: 3.495 }, { sym: 'EDU', pct: 61.7, avg: 3.431 },
 ];
 
-// Top 10 within the 2020-present era specifically
-const TOP_GAINERS_RECENT = [
-  ['ACB', 184.88, '2020-11'], ['JMIA', 180.36, '2020-07'], ['PGEN', 170.06, '2025-08'],
-  ['SM', 169.43, '2020-11'], ['NBR', 168.16, '2020-05'], ['CGC', 159.94, '2024-03'],
-  ['RIOT', 159.20, '2020-11'], ['AMC', 158.36, '2021-05'], ['RRC', 156.83, '2020-04'],
-  ['MRNA', 155.51, '2026-08'],
+const TOP_2020_PRESENT = [
+  { sym: 'NVDA', pct: 65.9, avg: 5.221 }, { sym: 'MU', pct: 56.1, avg: 4.907 },
+  { sym: 'TSLA', pct: 52.4, avg: 4.802 }, { sym: 'WDC', pct: 61.0, avg: 4.341 },
+  { sym: 'STX', pct: 61.0, avg: 4.290 }, { sym: 'MRVL', pct: 58.5, avg: 4.215 },
+  { sym: 'LITE', pct: 56.1, avg: 4.147 }, { sym: 'RRC', pct: 53.7, avg: 4.080 },
+  { sym: 'TRGP', pct: 62.2, avg: 3.996 }, { sym: 'LRCX', pct: 57.3, avg: 3.959 },
 ];
 
-const TOP_LOSERS = [
-  ['EIC', -98.86, '2015-02'], ['EIC', -98.73, '2016-10'], ['CIH', -98.70, '2019-06'],
-  ['IFS', -96.78, '2017-03'], ['IMUX', -96.60, '2018-09'], ['EIC', -96.34, '2015-12'],
-  ['SBE', -96.30, '2016-05'], ['VERB', -96.25, '2015-10'], ['HMI', -94.83, '2015-06'],
-  ['CIH', -94.77, '2016-02'],
+// Overlap between the two top-10 lists above, for the turnover chart.
+const TURNOVER = [
+  { label: '2015-2019 only', count: 9 },
+  { label: 'Both eras', count: 1 },
+  { label: '2020-present only', count: 9 },
 ];
 
 const STOCKS_VS_ETFS = [
@@ -179,13 +183,13 @@ function renderReportCharts() {
     },
   });
 
-  // 3. Top single-month gainers (horizontal bar)
-  makeChart('chartGainers', {
+  // 3. Top 10 performers, whole 2015-2019 period (horizontal bar)
+  makeChart('chartTop2015', {
     type: 'bar',
     data: {
-      labels: TOP_GAINERS.map((d) => d[0]),
+      labels: TOP_2015_2019.map((d) => d.sym),
       datasets: [{
-        data: TOP_GAINERS.map((d) => d[1]),
+        data: TOP_2015_2019.map((d) => d.avg),
         backgroundColor: c.series[0],
         borderRadius: 4,
         maxBarThickness: 20,
@@ -199,8 +203,8 @@ function renderReportCharts() {
         tooltip: {
           ...baseTooltip(c),
           callbacks: {
-            title: (items) => `${items[0].label} · ${TOP_GAINERS[items[0].dataIndex][2]}`,
-            label: (ctx) => fmtPct(ctx.parsed.x),
+            title: (items) => TOP_2015_2019[items[0].dataIndex].sym,
+            label: (ctx) => [`Avg monthly return: ${fmtPct(ctx.parsed.x)}`, `${TOP_2015_2019[ctx.dataIndex].pct}% of months positive`],
           },
         },
       },
@@ -208,14 +212,14 @@ function renderReportCharts() {
     },
   });
 
-  // 4. Steepest single-month losers (horizontal bar)
-  makeChart('chartLosers', {
+  // 4. Top 10 performers, whole 2020-present period (horizontal bar)
+  makeChart('chartTop2020', {
     type: 'bar',
     data: {
-      labels: TOP_LOSERS.map((d) => d[0]),
+      labels: TOP_2020_PRESENT.map((d) => d.sym),
       datasets: [{
-        data: TOP_LOSERS.map((d) => d[1]),
-        backgroundColor: c.series[7],
+        data: TOP_2020_PRESENT.map((d) => d.avg),
+        backgroundColor: c.series[1],
         borderRadius: 4,
         maxBarThickness: 20,
       }],
@@ -228,8 +232,8 @@ function renderReportCharts() {
         tooltip: {
           ...baseTooltip(c),
           callbacks: {
-            title: (items) => `${items[0].label} · ${TOP_LOSERS[items[0].dataIndex][2]}`,
-            label: (ctx) => fmtPct(ctx.parsed.x),
+            title: (items) => TOP_2020_PRESENT[items[0].dataIndex].sym,
+            label: (ctx) => [`Avg monthly return: ${fmtPct(ctx.parsed.x)}`, `${TOP_2020_PRESENT[ctx.dataIndex].pct}% of months positive`],
           },
         },
       },
@@ -237,7 +241,29 @@ function renderReportCharts() {
     },
   });
 
-  // 5. Stocks vs ETFs (bar, categorical identity)
+  // 5. Turnover between the two top-10 lists (bar)
+  makeChart('chartTurnover', {
+    type: 'bar',
+    data: {
+      labels: TURNOVER.map((d) => d.label),
+      datasets: [{
+        data: TURNOVER.map((d) => d.count),
+        backgroundColor: [c.series[0], c.series[6], c.series[1]],
+        borderRadius: 4,
+        maxBarThickness: 64,
+      }],
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false },
+        tooltip: { ...baseTooltip(c), callbacks: { label: (ctx) => `${ctx.parsed.y} of the 10 names` } },
+      },
+      scales: baseScales(c, { y: { beginAtZero: true, max: 10, ticks: { stepSize: 2 } } }),
+    },
+  });
+
+  // 6. Stocks vs ETFs (bar, categorical identity)
   makeChart('chartStocksEtfs', {
     type: 'bar',
     data: {
@@ -267,7 +293,7 @@ function renderReportCharts() {
     },
   });
 
-  // 6. Average return by exchange (bar, diverging by sign)
+  // 7. Average return by exchange (bar, diverging by sign)
   makeChart('chartByExchange', {
     type: 'bar',
     data: {
@@ -300,7 +326,7 @@ function renderReportCharts() {
     },
   });
 
-  // 7. Most consistent gainers (horizontal bar)
+  // 8. Most consistent gainers (horizontal bar)
   makeChart('chartConsistency', {
     type: 'bar',
     data: {
@@ -323,7 +349,7 @@ function renderReportCharts() {
     },
   });
 
-  // 8. Highest average monthly trading volume (horizontal bar)
+  // 9. Highest average monthly trading volume (horizontal bar)
   makeChart('chartVolume', {
     type: 'bar',
     data: {
@@ -346,7 +372,7 @@ function renderReportCharts() {
     },
   });
 
-  // 9. Era comparison: 2015-2019 vs 2020-present (bar, categorical identity)
+  // 10. Era comparison: 2015-2019 vs 2020-present (bar, categorical identity)
   makeChart('chartEra', {
     type: 'bar',
     data: {
@@ -376,36 +402,7 @@ function renderReportCharts() {
     },
   });
 
-  // 10. Top single-month gainers within the 2020-present era only (horizontal bar)
-  makeChart('chartGainersRecent', {
-    type: 'bar',
-    data: {
-      labels: TOP_GAINERS_RECENT.map((d) => d[0]),
-      datasets: [{
-        data: TOP_GAINERS_RECENT.map((d) => d[1]),
-        backgroundColor: c.series[1],
-        borderRadius: 4,
-        maxBarThickness: 20,
-      }],
-    },
-    options: {
-      indexAxis: 'y',
-      responsive: true,
-      plugins: {
-        legend: { display: false },
-        tooltip: {
-          ...baseTooltip(c),
-          callbacks: {
-            title: (items) => `${items[0].label} · ${TOP_GAINERS_RECENT[items[0].dataIndex][2]}`,
-            label: (ctx) => fmtPct(ctx.parsed.x),
-          },
-        },
-      },
-      scales: baseScales(c, { x: { beginAtZero: true, ticks: { callback: (v) => v + '%' } } }),
-    },
-  });
-
-  // 11. Cross-era leaders: same stock's average return in each era (grouped bar, one axis)
+  // Cross-era leaders: same stock's average return in each era (grouped bar, one axis)
   makeChart('chartCrossEra', {
     type: 'bar',
     data: {
@@ -426,4 +423,11 @@ function renderReportCharts() {
   });
 }
 
-document.addEventListener('DOMContentLoaded', renderReportCharts);
+// This script tag sits at the end of <body>, so the DOM is already parsed
+// by the time it runs - DOMContentLoaded may have already fired, which
+// would silently drop a listener registered for it. Guard against that.
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', renderReportCharts);
+} else {
+  renderReportCharts();
+}
